@@ -47,32 +47,7 @@
     $total_sales=0;
     $total_profit=0;
     $weeklysum = 0;
-    use Carbon\Carbon;
-    $today = Carbon::now()->setTimezone('Africa/Nairobi');
-    $now = Carbon::now();
-
-    $weekStartDate = $today->startOfWeek()->format('Y-m-d H:i');
-    $weekEndDate = $today->endOfWeek()->format('Y-m-d H:i');
-    use App\Order;
-    use App\RestaurantProfile;
-    use App\User;
-
-
-
-    $restautants_count = RestaurantProfile::all()->count();
-
-    $orders_count = Order::all()->count();
   
-    $users = User::where('role_id',3)->count();
-
-
-    $sales = Order::with('menu')->whereDate('created_at', Carbon::today())->get();
-   
-
-    $completed_orders = Order::with('menu')->whereDate('created_at', Carbon::today())->where('Status',3)->count();
-   // dd($now);
-
-   
     @endphp
 
 
@@ -86,7 +61,7 @@
                         <div class="row clearfix">
                             <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                                 <div class="body">
-                                    <h2 class="number count-to m-t-0 m-b-5" data-from="0" data-to="{{$restautants_count}}" data-speed="1000" data-fresh-interval="700">{{$restautants_count}}</h2>
+                                    <h2 class="number count-to m-t-0 m-b-5" data-from="0" data-to="{{$orders_count}}" data-speed="1000" data-fresh-interval="700">{{$orders_count}}</h2>
 
 
                                     <p class="text-muted">Total Farmers </p>
@@ -114,7 +89,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                                 <div class="body">
-                                    <h2 class="number count-to m-t-0 m-b-5" data-from="0" data-to="{{$users}}" data-speed="2000" data-fresh-interval="700">{{$users}}</h2>
+                                    <h2 class="number count-to m-t-0 m-b-5" data-from="0" data-to="{{10}}" data-speed="2000" data-fresh-interval="700">{{10}}</h2>
                                     <p class="text-muted">Total Tobacco Kgs </p>
                                     <span id="linecustom3">1,5,3,6,6,3,6,8,4,2</span>
                                 </div>

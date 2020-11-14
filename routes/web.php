@@ -50,6 +50,8 @@ Route::post('/customer/add', "AdminController@addCustomer" )->name('customer.add
 //order
 Route::get('/order/view', "AdminController@viewOrder" )->name('order.view');
 Route::post('/order/add', "AdminController@addOrder" )->name('order.add');
+Route::post('/order/create', "AdminController@createOrder" )->name('order.create');
+Route::get('/order/list', "AdminController@viewOrderList" )->name('order.list');
 
 
 

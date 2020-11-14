@@ -14,7 +14,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Your Title Page
         ============================================= -->
-    <title>@yield('title') :: Sahani</title>
+    <title>@yield('title') :: tobacco</title>
 
     <!-- Favicons-->
     <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon">
@@ -68,7 +68,7 @@
                     <input type="password" class="form-control form-white" name="password" placeholder="Password"
                            required>
                     <div class="text-left">
-                        <a href="#">Forgot Password?</a>
+                        <a href="#">Forgot Passwords?</a>
                     </div>
                     <button type="submit" class="btn btn-submit">Submit</button>
                     <div class="text-danger mt-1 alert-validation-msg animate__animated animate__wobble" role="alert"
@@ -80,7 +80,8 @@
                 </form>
             </div>
         </div>
-    </div><!-- End modal -->
+    </div>
+    <!-- End modal -->
 
     <!-- Register modal -->
     <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myRegister" aria-hidden="true">

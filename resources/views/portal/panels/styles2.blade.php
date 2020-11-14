@@ -26,7 +26,7 @@
         width: 100%;
         height: 100%;
         bottom: 0;
-        background-color: #6a1b9a;
+        background-color: #197a01;
         z-index: 999999;
     }
 

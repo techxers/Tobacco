@@ -31,28 +31,15 @@
 
                         </li>
 
-                   
-
-
-
-
-                        {{--
-                        <li><a href="{{route('d_tips')}}">Diet Tips</a></li>
-                        <li><a href="{{route('about')}}">About us</a></li>
-                        <li><a href="{{route('faq')}}">Faq</a></li>
-                        --}}
+                      
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
                             <a class="nav-link" href="" data-toggle="modal" data-target="#login_2" id="openDiagLogin">{{ __('Login') }}</a>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);" class="show-submenu">{{ __('Register') }}<i class="icon-down-open-mini"></i></a>
-                            <ul>
-                                <li><a href="" data-toggle="modal" data-target="#register" id="openDiagRegister">Customer</a></li>
-
-                                <li><a href="{{route('pages.restaurants.new')}}">Restaurant</a></li>
-                            </ul>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#register" class="show-submenu">{{ __('Register') }}<i class="icon-down-open-mini"></i></a>
+                           
                         </li>
                         @else
                         <li class="nav-item dropdown">

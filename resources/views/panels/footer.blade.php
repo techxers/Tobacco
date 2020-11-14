@@ -66,7 +66,7 @@
                         <li><a href="#0"><i class="icon-youtube-play"></i></a></li>
                     </ul>
                     <p>
-                        &copy; Sahani {{Date('Y')}}
+                        &copy; tobacco {{Date('Y')}}
                     </p>
                 </div>
             </div>

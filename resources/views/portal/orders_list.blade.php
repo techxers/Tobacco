@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <h2>Product List
-                    <small>Welcome to Sahani</small>
+                    <small>Welcome to tobacco</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
@@ -56,50 +56,48 @@
                         <table class="table table-hover m-b-0">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Order Name</th>
-                                    <th data-breakpoints="xs md">Category</th>
-                                    <th data-breakpoints="sm xs">Customer</th>
-                                    <th data-breakpoints="xs">Amount</th>
-                                    <th data-breakpoints="xs md">Status</th>
-                                    <th data-breakpoints="sm xs md">Action</th>
+
+                                    <th>Order Number</th>
+                                    <th data-breakpoints="xs md">Customer</th>
+                                    <th data-breakpoints="sm xs">Product</th>
+                                    <th data-breakpoints="xs">Grade</th>
+                                    <th data-breakpoints="xs md">Amount</th>
+                                    <th data-breakpoints="sm xs md">Params</th>
+                                    <th data-breakpoints="sm xs md">packaging</th>
+
                                 </tr>
                             </thead>
                             <tbody>
 
-                          
-                            @if(null !==($restaurant))
-                                @foreach($restaurant->orders as $order)
-                              
-                
+
+                                @if(null !==($orders))
+                                @foreach($orders as $order)
+
+
                                 <tr>
-                                    <td><img src="{{asset($order->menu->image)}}" width="48" alt="Item image"></td>
-                                    <td><h5>{{$order->menu->title}}</h5></td>
-                                    <td>{{$order->menu->category->title}}</td>
-                                     <td><span class="text-muted">{{$order->user->name}}</span></td>
-                                    <td>{{$order->menu->currency}} {{$order->menu->pricing}}</td>
-                                    @if($order->status ==1)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-warning">Pending </span></td>
-                                    @elseif($order->status == 2)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-primary">Processing </span></td>
 
-                                    @elseif($order->status == 3)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-success">Completed </span></td>
-                                    @elseif($order->status == 4)
+                                    <td>
+                                        <h5>{{$order->order_number}}</h5>
+                                    </td>
+                                    <td>{{$order->user_id}}</td>
 
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-danger">Cancelled </span></td>
-                                    @endif
+                                    <td>{{$order->product_id}}</td>
+                                    <td>{{$order->grade_id}}</td>
+                                    <td>{{$order->amount}}</td>
+                                    <td>{{$order->params}}</td>
+                                    <td>{{$order->packaging}}</td>
+
                                     <td>
                                         <a href="javascript:void(0);" data-toggle="modal" data-target="#menuAddModal" class="btn btn-default waves-effect waves-float waves-green"><i class="zmdi zmdi-edit"></i></a>
                                         <!-- <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float waves-red"><i class="zmdi zmdi-delete"></i></a> -->
                                     </td>
-                                    
+
                                 </tr>
-                            
+
                                 @endforeach
-                            @else
-                            <h1>No Orders made</h1>
-                            @endif
+                                @else
+                                <h1>No Orders made</h1>
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -139,7 +137,7 @@
                 <form method="post" action="{{route('order.update')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
-                <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="menu_category">Select Status</label>
                             <select class="form-control show-tick ms select2" data-placeholder="Select" id="status" name="status" required>
@@ -155,24 +153,23 @@
                             </span>
                             @enderror
                         </div>
-                      <div>
-                      @if (!empty($order->id)) 
-               
-                          <input type="hidden" name="order_id" value={{$order->id}}>
-                          <input type="hidden" name="user_id" value={{$order->user_id}}>
-                    
-                    @endif
+                        <div>
+                            @if (!empty($order->id))
 
-                      </div>
+                            <input type="hidden" name="order_id" value={{$order->id}}>
+                            <input type="hidden" name="user_id" value={{$order->user_id}}>
+
+                            @endif
+
+                        </div>
                     </div>
                     <div class="col-12">
-                            <button type="reset" class="btn btn-danger ">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                    class="btn btn-primary ">Update
-                            </button>
-                        </div>
+                        <button type="reset" class="btn btn-danger ">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary ">Update
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

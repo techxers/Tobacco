@@ -24,7 +24,7 @@
                         <div class="container">
                             <div class="slider-content  "><i class="icon-home-ico"></i>
                                 <h1>Delicious Foods Menu</h1>
-                                <p>Everything you want, you will find on Sahani</p>
+                                <p>Everything you want, you will find on tobacco</p>
                                 <ol class="breadcrumb">
                                     <li><a href="index01.html">Home</a></li>
                                     <li>menu</li>

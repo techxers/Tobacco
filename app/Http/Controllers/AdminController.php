@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\FarmerProfile;
 use App\User;
-use App\Tobacco;
+use App\tobacco;
 use App\Grade;
 use App\Product;
 use App\tobaccoProduct;
 use App\MainStorage;
-
+use App\Order;
 use App\WeightUnit;
 
 use App\productGrades;
@@ -86,6 +86,42 @@ class AdminController extends Controller
 
         return view('portal.admin_manage_grades', compact('grades', 'user'));
     }
+    public function viewOrderList()
+    {
+        $user = auth()->user();
+        $orders = Order::all();
+
+        return view('portal.orders_list', compact('orders', 'user'));
+    }
+    
+    public function createOrder()
+    {
+        $data = request()->validate([
+            'order_number' => [],
+            'farmer_id' => [],
+            'amount' => [],
+            'product_id' => [],
+            'grade_id' => [],
+            'params' => [],
+            'packaging' => [],
+            'grade_id' => [],
+
+
+        ]);
+        $order = Order::create([
+            'order_number' => $data['order_number'],
+            'grade_id' =>  $data['grade_id'],
+            'user_id' =>  $data['farmer_id'],
+            'amount' =>  $data['amount'],
+            'product_id' =>  $data['product_id'],
+            'params' =>  $data['params'],
+            'packaging' =>  $data['packaging'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->back()->with('message', 'success!');
+
+    }
 
     public function manageProducts()
     {
@@ -124,21 +160,21 @@ class AdminController extends Controller
         $productgrades = productGrades::all();
         return view('portal.admin_manage_product_grades', compact('productgrades', 'user'));
     }
-    
+
     public function createReceiving()
     {
         $data = request()->validate([
             'tobacco_product_id' => [],
-           
+
         ]);
 
         //get the lorry weight
-        $tobacco = tobaccoProduct::where('id',$data['tobacco_product_id'])->first();
-      //  dd($tobacco);
+        $tobacco = tobaccoProduct::where('id', $data['tobacco_product_id'])->first();
+        //  dd($tobacco);
         //check status
 
-        if($tobacco->lorry_status_id == 0 ){
-              // create main store record
+        if ($tobacco->lorry_status_id == 0) {
+            // create main store record
             $mainStorage = MainStorage::create([
                 'tobacco_product_id' => $tobacco->id,
                 'amount' =>   $tobacco->weight,
@@ -147,21 +183,20 @@ class AdminController extends Controller
                 'updated_at' => Carbon::now(),
             ]);
 
-            if($mainStorage){
+            if ($mainStorage) {
                 $tobacco->update([
 
                     'weight' => 0,
-                     'lorry_status_id' => 1
+                    'lorry_status_id' => 1
 
                 ]);
             }
             return redirect()->back()->with('message', 'IT WORKS!');
+        } else {
 
-        }else{
-
-            return redirect()->back()->with('message', 'IT Dint WORKS!');
+            return redirect()->back()->with('message', 'success!');
         }
-      
+
         //remove weight from lorry
 
     }
@@ -194,7 +229,7 @@ class AdminController extends Controller
 
         return view('portal.admin_manage_tobacco', compact('tobaccos', 'user'));
     }
-    
+
     public function updateProduct()
     {
         $user = auth()->user();
@@ -210,11 +245,11 @@ class AdminController extends Controller
         $user = auth()->user();
         $units = WeightUnit::all();
 
-        return view('portal.view_measure', compact('user','units'));
+        return view('portal.view_measure', compact('user', 'units'));
     }
     public function measureAdd()
     {
-        
+
         $data = request()->validate([
             'unit_name' => [],
             'measure' => []
@@ -228,27 +263,27 @@ class AdminController extends Controller
         $user = auth()->user();
         $units = WeightUnit::all();
 
-        return view('portal.view_measure', compact('user','units'));
+        return view('portal.view_measure', compact('user', 'units'));
     }
-    
+
     public function viewOrder()
     {
         $user = auth()->user();
-       
+
         return view('portal.order', compact('user'));
     }
     public function viewCustomer()
     {
         $user = auth()->user();
-        $users = FarmerProfile::where('role_id',3)->get();
-        return view('portal.admin_manage_customers', compact('user','users'));
+        $users = FarmerProfile::where('role_id', 3)->get();
+        return view('portal.admin_manage_customers', compact('user', 'users'));
     }
     public function showBuying()
     {
         $user = auth()->user();
         return view('portal.buying', compact('user'));
     }
-    
+
     public function createBuying()
     {
         $data = request()->validate([
@@ -258,12 +293,12 @@ class AdminController extends Controller
             'grade_id' => [],
             'transport_id' => [],
             'farmer_profile_id' => [],
-             'created_at' => [],
-             'updated_at' => []
+            'created_at' => [],
+            'updated_at' => []
 
 
         ]);
-   
+
         $tobaccoProduct = tobaccoProduct::create([
             'bale_name' => $data['bale_name'],
             'unique_no' => $data['unique_no'],
@@ -276,11 +311,11 @@ class AdminController extends Controller
             'updated_at' => Carbon::now(),
         ]);
         $user = auth()->user();
-    
+
         return redirect()->back()->with('message', 'Bale added');
         // return view('portal.admin_manage_users', compact('user', 'farmers'));
     }
-    
+
 
     public function addCustomer()
     {
@@ -319,9 +354,8 @@ class AdminController extends Controller
             'updated_at' => Carbon::now(),
         ]);
         $user = auth()->user();
-        $users = FarmerProfile::where('role_id',3)->get();
-        return view('portal.admin_manage_customers', compact('user','users'));
-
+        $users = FarmerProfile::where('role_id', 3)->get();
+        return view('portal.admin_manage_customers', compact('user', 'users'));
     }
     public function addFarmer()
     {

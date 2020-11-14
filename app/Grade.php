@@ -12,7 +12,7 @@ class Grade extends Model
         return $this->belongsTo(Product::class);
     }
     public function tobacco(){
-        return $this->belongsTo(Tobacco::class);
+        return $this->belongsTo(tobacco::class);
     }
   
 }

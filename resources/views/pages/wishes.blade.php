@@ -24,7 +24,7 @@
                         <div class="container" >
                             <div class="slider-content  "> <i class="icon-home-ico"></i>
                                 <h1>Wishlist</h1>
-                                <p>Every Thing You Know About Sahani</p>
+                                <p>Every Thing You Know About tobacco</p>
                                 <ol class="breadcrumb">
                                     <li><a href="index01.html">Home</a></li>
                                     <li>Wishlist</li>

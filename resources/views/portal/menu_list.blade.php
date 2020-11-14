@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <h2>Menu List
-                    <small>Welcome to Sahani</small>
+                    <small>Welcome to tobacco</small>
                 </h2>
             </div>
 

@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <h2>Profile
-                    <small>Welcome to Leaf</small>
+                    <small>tobacco</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
@@ -44,15 +44,18 @@
             <div class="col-lg-4 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active text" data-toggle="tab" href="#about">Order Generation</a>
+                        <li class="nav-item"><a class="nav-link active text" data-toggle="tab" href="#">Order Generation</a>
                         </li>
+                        
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane body active" id="about">
                             <small class="text-muted"> Generate Order Below </small>
                         </div>
                         <div class="col-md-12">
-                            <button class="btn btn-dark btn-round" type="submit">GENERATE</button>
+                          <button class="btn btn-dark btn-round" type="submit">GENERATE</button>   
+                      <button class="btn btn-dark btn-round" type="submit">View Orders</button>    
+
                         </div>
 
                     </div>
@@ -61,13 +64,13 @@
             <div class="col-lg-8 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#usersettings">New Order </a>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#ordersettings">New Order </a>
                         </li>
                     </ul>
                 </div>
                 <div class="tab-content">
 
-                    <div role="tabpanel" class="tab-pane  active" id="usersettings">
+                    <div role="tabpanel" class="tab-pane  active" id="ordersettings">
                         {{--
                             <div class="card">
                                 <div class="header">
@@ -90,13 +93,13 @@
                         <h2><strong>Create</strong> Order</h2>
                     </div>
                     <div class="body">
-                        <form class="row clearfix" action="{{route('profile.update')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                            @csrf
-                            @method('PATCH')
+                        <form class="row clearfix" action="{{route('order.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                        @csrf
+                            @method('POST')
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Order ID" name="title" value="{{$user->title??old('title')}}">
-                                    @error('title')
+                                    <input type="text" class="form-control" placeholder="Order ID" name="order_number" value="{{$order->order_number??old('order_number')}}">
+                                    @error('order_number')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
                                     </span>
@@ -105,7 +108,7 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required>
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="farmer_id" name="farmer_id" required>
                                         <option value="">Select Customer</option>
                                         @foreach (\App\FarmerProfile::all() as $farmer)
                                         <option value="{{$farmer->id}}">
@@ -122,18 +125,26 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Headline" name="headline" value="{{$user->headline??old('headline')}}">
-                                    @error('headline')
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="product" name="product_id" required>
+                                        <option value="">Select Product</option>
+                                        @foreach (\App\Product::all() as $product)
+                                        <option value="{{$product->id}}">
+                                            {{$product->name}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    @error('product')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                        <strong>{{$message}}.</strong>
+                                        {{$message}}
                                     </span>
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="location" name="location" value="{{$user->location??old('location')}}">
-                                    @error('location')
+                                    <input type="number" class="form-control" placeholder="amount" name="amount" value="{{$order->amount??old('amount')}}">
+                                    @error('amount')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
                                     </span>
@@ -143,15 +154,15 @@
 
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required>
-                                        <option value="">Select Country</option>
-                                        @foreach (\App\Country::all() as $country)
-                                        <option value="{{$country->id}}">
-                                            {{$country->name}}
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="grade_id" name="grade_id" required>
+                                        <option value="">Select Grade</option>
+                                        @foreach (\App\Grade::all() as $grade)
+                                        <option value="{{$grade->id}}">
+                                            {{$grade->name}}
                                         </option>
                                         @endforeach
                                     </select>
-                                    @error('country_id')
+                                    @error('grade_id')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         {{$message}}
                                     </span>
@@ -160,25 +171,34 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" name="city_id" required>
-                                        <option value="">City</option>
-                                    </select>
-                                    @error('city_id')
+                                    <input type="text" class="form-control" placeholder="processing parameters" name="params" value="{{$order->params??old('params')}}">
+                                    @error('params')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                        {{$message}}
+                                        <strong>{{$message}}.</strong>
                                     </span>
                                     @enderror
                                 </div>
                             </div>
-          
-                    <div class="col-md-12">
-                        <button class="btn btn-primary btn-round" type="submit">Save Changes</button>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="packaging" name="packaging" value="{{$order->packaging??old('packaging')}}">
+                                    @error('packaging')
+                                    <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                        <strong>{{$message}}.</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-round" type="submit">Create Order</button>
+                            </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     </div>
     </div>

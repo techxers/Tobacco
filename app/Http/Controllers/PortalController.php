@@ -43,7 +43,7 @@ class PortalController extends Controller
         $farmer=$user->farmer_profile;
 
         $breadcrumbs = [
-            ['link'=>route('landing'),'name'=>config('app.name', 'Sahani')],['link'=>route('dashboard'),'name'=>"Portal"], ['name'=>"Gallery"]
+            ['link'=>route('landing'),'name'=>config('app.name', 'tobacco')],['link'=>route('dashboard'),'name'=>"Portal"], ['name'=>"Gallery"]
         ];
 
         return view('portal.gallery',compact('user','farmer','breadcrumbs'));

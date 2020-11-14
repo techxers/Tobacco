@@ -5,7 +5,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" href="{{route('landing')}}">
-                    <img src="{{asset('images/logo/leaf.jpg')}}" width="auto" height="48px" alt="Sahani">
+                    <img src="{{asset('images/logo/leaf.jpg')}}" width="auto" height="48px" alt="tobacco">
                    </a>
             </div>
         </li>

@@ -14,7 +14,7 @@
                 <ul class="list">
                     <li>
                         <div class="user-info">
-                            <div class="image"><a href="profile.html"><img src="{{asset('images/logo/SVG/chef2.svg')}}" alt="User"></a></div>
+                            <div class="image"><a href="{{route('profile')}}"><img src="{{asset('images/logo/SVG/chef2.svg')}}" alt="User"></a></div>
                             <div class="detail">
                                 <h4>{{$user->name}}</h4>
                                 <small>{{$user->email ?? ''}}</small>

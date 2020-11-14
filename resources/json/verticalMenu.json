@@ -129,6 +129,13 @@
                     "name": "Order",
                     "icon": "",
                     "policy": "admin"
+                },
+                {
+                    "url": "View Orders",
+                    "uri": "order.list",
+                    "name": "View Orders",
+                    "icon": "",
+                    "policy": "admin"
                 }
 
                 
