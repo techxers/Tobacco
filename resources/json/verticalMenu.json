@@ -1,0 +1,248 @@
+{
+    "menu": [
+        {
+            "url": "",
+            "navheader": "Main",
+            "icon": "",
+            "policy": "admin"
+        },
+       
+        {
+            "url": "dashboard",
+            "name": "Dashboard",
+            "icon": "zmdi zmdi-home",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "dashboard",
+                    "uri": "dashboard",
+                    "name": "Analytics",
+                    "icon": "",
+                    "policy": "admin"
+                }
+                
+               
+            ]
+        },
+        {
+            "url": "Farmers",
+            "name": "Farmers",
+            "icon": "zmdi zmdi-shopping-cart",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "/admin/manage/users",
+                    "uri": "admin.manage.users",
+                    "name": "View",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "/admin/manage/add",
+                    "uri": "admin.manage.add",
+                    "name": "Add New ",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        },
+        {
+            "url": "",
+            "navheader": "Produts  & Grades",
+            "icon": "",
+            "policy": "admin"
+        },
+        {
+            "url": "Manage Products",
+            "name": "Manage Products",
+            "icon": "zmdi zmdi-assignment",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "tobacco/manage",
+                    "uri": "tobacco.manage",
+                    "name": "Tobacco",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "grades/manage",
+                    "uri": "grades.manage",
+                    "name": "Grades",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "products/manage",
+                    "uri": "products.manage",
+                    "name": "Products",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "products/Grades",
+                    "uri": "products.grades",
+                    "name": "Products Grades",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        },
+        {
+            "url": "",
+            "name": "Leaf Management",
+            "icon": "zmdi zmdi-grid",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "buying",
+                    "uri": "bale.buying",
+                    "name": "Buying",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "receiving",
+                    "uri": "bale.receiving",
+                    "name": "Receiving",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "reports",
+                    "uri": "bale.reports",
+                    "name": "Reports",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        },
+         {
+            "url": "",
+            "name": "Processing",
+            "icon": "zmdi zmdi-hourglass",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "Generate Order",
+                    "uri": "order.view",
+                    "name": "Order",
+                    "icon": "",
+                    "policy": "admin"
+                }
+
+                
+            ]
+        },
+        {
+            "url": "",
+            "navheader": "Sytems and Settings",
+            "icon": "",
+            "policy": "admin"
+        },
+        {
+            "url": "",
+            "name": "Profile",
+            "icon": "zmdi zmdi-delicious",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "profile",
+                    "uri": "profile",
+                    "name": "View",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        },
+        {
+            "url": "",
+            "name": "Farm Configs",
+            "icon": "zmdi zmdi-wrench",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "measure",
+                    "uri": "measure.view",
+                    "name": "Measure",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "customer",
+                    "uri": "customer.view",
+                    "name": "Customer",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "restaurant.tables",
+                    "uri": "restaurant.tables",
+                    "name": "County",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "restaurant.tables",
+                    "uri": "restaurant.tables",
+                    "name": "Regions",
+                    "icon": "",
+                    "policy": "admin"
+                }
+               
+            ]
+            
+        },
+        {
+            "url": "",
+            "name": "Invoices",
+            "icon": "zmdi zmdi-lock",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "",
+                    "name": "View all",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "",
+                    "name": "recent",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        },
+        {
+            "url": "",
+            "name": "System",
+            "icon": "zmdi zmdi-lock",
+            "policy": "admin",
+            "submenu": [
+                {
+                    "url": "",
+                    "name": "Settings",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "",
+                    "name": "Configuration",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "generate/qr",
+                    "uri": "qr.generate.view",
+                    "name": "QR Code",
+                    "icon": "",
+                    "policy": "admin"
+                }
+            ]
+        }
+     
+   
+
+
+    ]
+}
