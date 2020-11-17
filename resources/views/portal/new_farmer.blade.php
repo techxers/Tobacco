@@ -51,34 +51,19 @@
             </div>
         </div>
         <div class="row clearfix">
-            <!-- <div class="col-lg-4 col-md-12">
-                    <div class="card">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#about">About</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane body active" id="about">
-                                <small class="text-muted">Email address: </small>
-                                <p>{{$user->email}}</p>
-                                <hr>
-                                <small class="text-muted">Phone: </small>
-                                <p>{{$user->phone}}</p>
-                                <hr>
-                                <small class="text-muted">Website: </small>
-                                <p></p>
-                                <hr>
-                                <small class="text-muted">Date Joined: </small>
-                                <p class="m-b-0">  {{date_format( date_create($user->created_at), 'F jS, Y')}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>  -->
+           
             <div class="col-lg-8 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#usersettings">Setting</a>
-                        </li>
+                     
+                    </li>
+                 
+                    @isset($message)
+                    <button class="btn btn-info btn-round">{{$message ?? ''}} </button>
+                    @endisset
+
+                 
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -111,7 +96,7 @@
                             @method('POST')
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Full Name" name="full_name">
+                                    <input type="text" class="form-control" placeholder="First Name" name="first_name"  value="{{$farmer->first_name??old('first_name')}}">
                                     @error('title')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -121,7 +106,27 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="email" name="email">
+                                    <input type="text" class="form-control" placeholder="Middle Name" name="middle_name"  value="{{$farmer->middle_name??old('middle_name')}}">
+                                    @error('title')
+                                    <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                        <strong>{{$message}}.</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="{{$farmer->last_name??old('last_name')}}">
+                                    @error('title')
+                                    <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                        <strong>{{$message}}.</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="email" name="email"  value="{{$farmer->email??old('email')}}">
                                     @error('email')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -131,7 +136,7 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Id no" name="id_number">
+                                    <input type="text" class="form-control" placeholder="Id no" name="id_number" value="{{$farmer->id_number??old('id_number')}}">
                                     @error('id_number')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -141,7 +146,7 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="address" name="address">
+                                    <input type="text" class="form-control" placeholder="address" name="address" value="{{$farmer->address??old('address')}}">
                                     @error('address')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -151,7 +156,7 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="phone" name="phone">
+                                    <input type="text" class="form-control" placeholder="phone" name="phone" value="{{$farmer->phone??old('phone')}}">
                                     @error('phone')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -163,7 +168,7 @@
 
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required>
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required value="{{$farmer->country_id??old('country_id')}}">
                                         <option value="">Select Country</option>
                                         @foreach (\App\Country::all() as $country)
                                         <option value="{{$country->id}}">
@@ -180,7 +185,7 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" name="city_id" required>
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" value="{{$farmer->city_id??old('city_id')}}" name="city_id" required>
                                         <option value="">City</option>
                                     </select>
                                     @error('city_id')
@@ -192,7 +197,7 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="region" name="region_id" required>
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="region" value="{{$farmer->region_id??old('region_id')}}" name="region_id" required>
                                         <option value="">Select Region</option>
                                         @foreach (\App\Region::all() as $region)
                                         <option value="{{$region->id}}">
@@ -209,7 +214,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-12">
-                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" name="cropyear_id" required>
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear"  value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
                                         <option value="">Select Crop Year</option>
                                         @foreach (\App\CropYear::all() as $cropyear)
                                         <option value="{{$cropyear->id}}">
@@ -226,11 +231,11 @@
                             </div>
 
 
-                            <div class="col-lg-6 col-md-12">
+                            <!-- <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <input type="file" class="form-control" placeholder="logo" name="logo">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-12">
                                 <button class="btn btn-primary btn-round" type="submit">add new</button>
                             </div>
@@ -239,6 +244,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
     </div>
     </div>

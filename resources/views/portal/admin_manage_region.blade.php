@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Manage Users')
+@section('title', 'Manage Regions')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -32,14 +32,14 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage Farmers
-                    <small>tobacco</small>
+                <h2>Manage Regions
+                    <small>region</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
-                 <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+                <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
                     <i class="zmdi zmdi-plus"></i>
-                </button> 
+                </button>
                 <!-- <ul class="breadcrumb float-md-right">
                         <li class="breadcrumb-item"><a href="index-2.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
                         <li class="breadcrumb-item"><a href="ec-dashboard.html">eCommerce</a></li>
@@ -56,73 +56,31 @@
                         <table class="table table-hover m-b-0">
                             <thead>
                                 <tr>
-
-                                    <th>Farmer Name</th>
-                                    <th data-breakpoints="xs md">Number</th>
-                                    <th data-breakpoints="xs md">ID Number</th>
-                                    <th data-breakpoints="sm xs">Email</th>
-                                    <th data-breakpoints="xs">Phone</th>
-                                    <th data-breakpoints="xs md">Location</th>
-                                    <th data-breakpoints="xs md">Crop Year</th>
-                                    <!-- <th data-breakpoints="xs md">Status</th> -->
-                                    <th data-breakpoints="xs md">Actions</th>
+                                    <th>County</th>
+                                    <th>Region</th>
+                                   
 
                                     <!-- <th data-breakpoints="sm xs md">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
 
-                            @if(null !==($farmers))
-                              
-                                @foreach($farmers as $farmer)
+                                @if(null !==($regions))
 
-
+                                @foreach($regions as $region)
                                 <tr>
 
                                     <td>
-                                        <h5>{{$farmer->first_name}} {{ $farmer->middle_name }} {{ $farmer->last_name }}  </h5>
+                                        {{$region->city->name ?? 'No  name'}}
                                     </td>
-                                    <td>{{$farmer->number ?? 'No Number'}}</td>
-                                    <td>{{$farmer->id_number ?? 'No id_number'}}</td>
-                                    <td>{{$farmer->email ?? 'No Email' }}</td>
-                                    <td>{{$farmer->phone ?? 'No phone'}}</td>
-
-                                    <td>{{$farmer->city->name ?? 'No City'}}</td>
-                                    <td>{{$farmer->cropyear->year ?? 'Not Assigned'}}</td>
-
-
-
-<!-- 
-                                    @if($farmer->status ==0)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-warning">Pending </span></td>
-                                    @elseif($farmer->status == 1)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-success">Active </span></td>
-
-                                    @elseif($farmer->status == 2)
-                                    <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-danger">Banned </span></td>
-                                    @endif -->
                                     <td>
-                                        <div class="btn-group">
-                                            <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li> <a href="{{ action('AdminController@editFarmer', $farmer->id) }}">Edit </li>
-                                                <li><a href="{{ action('AdminController@deleteFarmer', $farmer->id) }}">Delete</a>  </li>
-
-                                            </ul>
-                                        </div>
+                                        {{$region->name ?? 'No  name'}}
                                     </td>
-                                     <!-- <td>
-                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#menuAddModal" class="btn btn-default waves-effect waves-float waves-green"><i class="zmdi zmdi-edit"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float waves-red"><i class="zmdi zmdi-delete"></i></a> 
-                                    </td>  -->
-
                                 </tr>
                                 @endforeach
-                            @else
-                            <h1>No Farmers Availabe</h1>
-                            @endif
-                               
-
+                                @else
+                                <h1>No Region Availabe</h1>
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -156,39 +114,46 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">Change  status </h4>
+                <h4 class="title" id="menuAddModalLabel">Add a new Region</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('admin.farmer.update')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('admin.region.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
-                    <div class="col-12 col-md-6">
+                    <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <label class="form-label" for="menu_category">Select new restautrant Status </label>
-                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="status" name="status" required>
-                                <option value="">--Select the order status--</option>
-                                @foreach(\App\Res_status::all() as $status)
-                                                              <option value="{{$status->id}}">{{$status->status}}</option>
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="city_id" required>
+                                <option value="">Select County</option>
+                                @foreach (\App\city::all() as $city)
+                                <option value="{{$city->id}}">
+                                    {{$city->name}}
+                                </option>
                                 @endforeach
-
                             </select>
-                            @error('status')
-                            <span class="text-danger pl-1 small" role="alert">
+                            @error('city_id')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 {{$message}}
                             </span>
                             @enderror
                         </div>
-                        <div>
-                        <input type="hidden" name="farmer_profile_id" value="{{$farmer->id ?? 0}}">
-
-
-                        </div>
                     </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Region  Name" name="name">
+                            @error('region')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+
                     <div class="col-12">
                         <button type="reset" class="btn btn-danger ">
                             Cancel
                         </button>
-                        <button type="submit" class="btn btn-primary ">Update
+                        <button type="submit" class="btn btn-primary ">Add
                         </button>
                     </div>
                 </form>

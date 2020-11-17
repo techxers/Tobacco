@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 //farmer.add
 Route::post('/admin/farmer/add', "AdminController@addFarmer" )->name('farmer.add');
 
+//region
+Route::get('/admin/region/view', "AdminController@viewRegion" )->name('admin.region.view');
+Route::post('/admin/region/add', "AdminController@addRegion" )->name('admin.region.add');
+
 
 
 
@@ -105,6 +109,9 @@ Route::get('/restaurant/{restaurant}/order/process', "OrderController@orderStep2
 Route::get('/restaurant/{restaurant}/order/finish', "OrderController@orderStep3")->name('order.step3');
 Route::post('/order/status/update', "OrderController@updateOrderStatus")->name('order.update');
 
+
+Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
+Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
 
 
 Auth::routes([

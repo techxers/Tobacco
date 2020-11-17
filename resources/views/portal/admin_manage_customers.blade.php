@@ -58,6 +58,7 @@
                                 <tr>
 
                                     <th>customer Name</th>
+                                    
                                     <th data-breakpoints="xs md">Country</th>
                                     <th data-breakpoints="sm xs">City</th>
                                     <th data-breakpoints="xs">Phone</th>
@@ -77,7 +78,7 @@
                                 <tr>
 
                                     <td>
-                                        <h5>{{$customer->full_name ?? 'No first name'}} </h5>
+                                        <h5>{{$customer->first_name}} {{ $customer->middle_name }} {{ $customer->middle_last }}  ?? 'No first name'}} </h5>
                                     </td>
                                     <td>{{$customer->country->name ?? 'No country'}}</td>
                                     <td>{{$customer->city->name ?? 'No City'}}</td>

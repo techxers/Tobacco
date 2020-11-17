@@ -1,27 +1,25 @@
 {
-    "menu": [
-        {
+    "menu": [{
             "url": "",
             "navheader": "Main",
             "icon": "",
             "policy": "admin"
         },
-       
+
         {
             "url": "dashboard",
             "name": "Dashboard",
             "icon": "zmdi zmdi-home",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "dashboard",
                     "uri": "dashboard",
                     "name": "Analytics",
                     "icon": "",
                     "policy": "admin"
                 }
-                
-               
+
+
             ]
         },
         {
@@ -29,8 +27,7 @@
             "name": "Farmers",
             "icon": "zmdi zmdi-shopping-cart",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "/admin/manage/users",
                     "uri": "admin.manage.users",
                     "name": "View",
@@ -57,8 +54,7 @@
             "name": "Manage Products",
             "icon": "zmdi zmdi-assignment",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "tobacco/manage",
                     "uri": "tobacco.manage",
                     "name": "Tobacco",
@@ -93,8 +89,7 @@
             "name": "Leaf Management",
             "icon": "zmdi zmdi-grid",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "buying",
                     "uri": "bale.buying",
                     "name": "Buying",
@@ -117,13 +112,12 @@
                 }
             ]
         },
-         {
+        {
             "url": "",
             "name": "Processing",
             "icon": "zmdi zmdi-hourglass",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "Generate Order",
                     "uri": "order.view",
                     "name": "Order",
@@ -138,7 +132,7 @@
                     "policy": "admin"
                 }
 
-                
+
             ]
         },
         {
@@ -152,23 +146,20 @@
             "name": "Profile",
             "icon": "zmdi zmdi-delicious",
             "policy": "admin",
-            "submenu": [
-                {
-                    "url": "profile",
-                    "uri": "profile",
-                    "name": "View",
-                    "icon": "",
-                    "policy": "admin"
-                }
-            ]
+            "submenu": [{
+                "url": "profile",
+                "uri": "profile",
+                "name": "View",
+                "icon": "",
+                "policy": "admin"
+            }]
         },
         {
             "url": "",
             "name": "Farm Configs",
             "icon": "zmdi zmdi-wrench",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "measure",
                     "uri": "measure.view",
                     "name": "Measure",
@@ -182,31 +173,24 @@
                     "icon": "",
                     "policy": "admin"
                 },
+
                 {
-                    "url": "restaurant.tables",
-                    "uri": "restaurant.tables",
-                    "name": "County",
-                    "icon": "",
-                    "policy": "admin"
-                },
-                {
-                    "url": "restaurant.tables",
-                    "uri": "restaurant.tables",
+                    "url": "/admin/region/view",
+                    "uri": "admin.region.view",
                     "name": "Regions",
                     "icon": "",
                     "policy": "admin"
                 }
-               
+
             ]
-            
+
         },
         {
             "url": "",
             "name": "Invoices",
             "icon": "zmdi zmdi-lock",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "",
                     "name": "View all",
                     "icon": "",
@@ -225,8 +209,7 @@
             "name": "System",
             "icon": "zmdi zmdi-lock",
             "policy": "admin",
-            "submenu": [
-                {
+            "submenu": [{
                     "url": "",
                     "name": "Settings",
                     "icon": "",
@@ -247,8 +230,8 @@
                 }
             ]
         }
-     
-   
+
+
 
 
     ]

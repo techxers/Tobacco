@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatefarmersProfilesTable extends Migration
+class CreatefarmerProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatefarmersProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('farmers_profiles', function (Blueprint $table) {
+        Schema::create('farmer_profiles', function (Blueprint $table) {
             $table->id();
-
-
-    
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('number')->nullable();
             $table->integer('city_id')->index('city_id')->nullable();
             $table->integer('country_id')->index('country_id')->nullable();
             $table->integer('region_id')->index('region_id')->nullable();
@@ -39,6 +40,6 @@ class CreatefarmersProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farmers_profiles');
+        Schema::dropIfExists('farmer_profiles');
     }
 }

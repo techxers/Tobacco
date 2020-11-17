@@ -11,7 +11,7 @@ use App\tobaccoProduct;
 use App\MainStorage;
 use App\Order;
 use App\WeightUnit;
-
+use App\Region;
 use App\productGrades;
 
 
@@ -34,7 +34,7 @@ class AdminController extends Controller
     public function manageUsers()
     {
         $user = auth()->user();
-        $farmers = FarmerProfile::all();
+        $farmers = FarmerProfile::where('status',1)->get();
 
 
         return view('portal.admin_manage_users', compact('user', 'farmers'));
@@ -337,9 +337,13 @@ class AdminController extends Controller
             $url = Storage::disk('images')->url($imagePath);
             $imageArray = ['logo' => $url];
         }
+      
+
 
         $farmer = FarmerProfile::create([
-            'full_name' => $data['full_name'],
+            'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'id_number' => $data['id_number'],
             'postal_address' => $data['address'],
@@ -360,7 +364,9 @@ class AdminController extends Controller
     public function addFarmer()
     {
         $data = request()->validate([
-            'full_name' => [],
+            'first_name' => [],
+            'middle_name' => [],
+            'last_name' => [],
             'email' => [],
             'id_number' => [],
             'address' => [],
@@ -374,15 +380,11 @@ class AdminController extends Controller
 
         ]);
 
-        if (request()->hasFile('logo')) {
-            $file = request()->file('logo');
-            $imagePath = request()->file('logo')->store('logos', 'images');
-            $url = Storage::disk('images')->url($imagePath);
-            $imageArray = ['logo' => $url];
-        }
 
         $farmer = FarmerProfile::create([
-            'full_name' => $data['full_name'],
+            'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'id_number' => $data['id_number'],
             'postal_address' => $data['address'],
@@ -390,27 +392,62 @@ class AdminController extends Controller
             'city_id' => $data['city_id'],
             'cropyear_id' => $data['cropyear_id'],
             'region_id' => $data['region_id'],
-
-
             'phone' => $data['phone'],
             'status' => 1,
-            'image' => $url,
+            'number'=>rand(1,1000000),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         $user = auth()->user();
-        $farmers = FarmerProfile::all();
-
-
-        return view('portal.admin_manage_users', compact('user', 'farmers'));
+        $message = 'Farmer Created Succesfully , No Assigned' .'  ' .$farmer->number;
+        return view('portal.new_farmer', compact('user', 'message'));
+        // return redirect()->back()->with('message', 'success!');
     }
     public function manageAdd()
     {
         $user = auth()->user();
-
-
-
         return view('portal.new_farmer', compact('user'));
+    }
+    public function editFarmer($user_id)
+    {
+        $user = auth()->user();
+        $farmer = FarmerProfile::find($user_id);
+        return view('portal.new_farmer', compact('user','farmer'));
+    }
+    public function viewRegion()
+    {
+        $user = auth()->user();
+        $regions = Region::all();
+
+        return view('portal.admin_manage_region', compact('user','regions'));
+    }
+    
+    public function deleteFarmer($farmer_id)
+    {
+       //Not deleting ,change status
+       $res = FarmerProfile::find($farmer_id);
+       //  dd($request->status);
+       $res->update([
+           'status' => 0
+
+       ]);
+       return redirect()->back()->with('message', 'success!');
+    }
+    public function addRegion()
+    {
+        $data = request()->validate([
+            'city_id' => [],
+            'name' => []
+
+        ]);
+        $farmer = Region::create([
+            'city_id' => $data['city_id'],
+            'name' => $data['name'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->back()->with('message', 'success!');
+
     }
     public function UpdateStatus(Request $request)
     {
