@@ -57,7 +57,7 @@
             "submenu": [{
                     "url": "tobacco/manage",
                     "uri": "tobacco.manage",
-                    "name": "Tobacco",
+                    "name": "Tobacco Types",
                     "icon": "",
                     "policy": "admin"
                 },
@@ -170,6 +170,13 @@
                     "url": "customer",
                     "uri": "customer.view",
                     "name": "Customer",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "Crop Year",
+                    "uri": "crop.year",
+                    "name": "Crop Year",
                     "icon": "",
                     "policy": "admin"
                 },

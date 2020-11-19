@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Manage Tobacco Types')
+@section('title', 'Manage Users')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -32,8 +32,8 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage Tobaccos Types
-                    <small>tobacco</small>
+                <h2>Manage Crops
+                    <small>crop</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
@@ -57,43 +57,53 @@
                             <thead>
                                 <tr>
 
-                                    <th>Tobaccos Type Name</th>
-                                    <th data-breakpoints="xs md">Tobaccos Type Number</th>
+                                    <th>Crops Name</th>
+                                    <th data-breakpoints="xs md">Description</th>
+                                    <th>Status</th>
 
-                                    <th data-breakpoints="sm xs md">Action</th>
+                                    <th>Change Status</th>
+                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @if(null !==($tobaccos))
+                                @if(null !==($Crops))
 
-                                @foreach($tobaccos as $tobacco)
+                                @foreach($Crops as $crop)
 
 
                                 <tr>
-
                                     <td>
-                                        {{$tobacco->name ?? 'No  name'}}
+                                        {{$crop->year ?? 'No  name'}}
                                     </td>
 
-
                                     <td>
-                                        {{$tobacco->number ?? 'No  number'}}
+                                        {{$crop->desription ?? 'No  description'}}
                                     </td>
+                                    @if($crop->isActive==1)
+                                    <td>
+                                        <button class="btn btn-success">Open</button>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <button class="btn btn-dark">Closed</button>
+                                    </td>
+                                    @endif
                                     <td>
                                         <div class="btn-group">
                                             <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li> <a href="{{ action('AdminController@editTobacoType',$tobacco->id) }}">Edit </li>
-                                                <li><a href="{{ action('AdminController@deleteTobacoType',$tobacco->id) }}">Delete</a>  </li>
+                                                <li> <a href="{{ action('AdminController@activate', $crop->id) }}">Open </li>
+                                                <li><a href="{{ action('AdminController@deactivate', $crop->id) }}">Close</a> </li>
 
                                             </ul>
                                         </div>
                                     </td>
+
                                 </tr>
                                 @endforeach
                                 @else
-                                <h1>No tobaccos Availabe</h1>
+                                <h1>No Crops Availabe</h1>
                                 @endif
 
 
@@ -130,15 +140,15 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">add a new tobacco type</h4>
+                <h4 class="title" id="menuAddModalLabel">add a new item</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('tobbaco.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('cropyear.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Tobacco Type" name="name">
+                            <input type="text" class="form-control" placeholder="crop Name" name="year">
                             @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}.</strong>
@@ -149,8 +159,8 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Tobacco number" name="number">
-                            @error('number')
+                            <input type="text" class="form-control" placeholder="crop Description" name="desription">
+                            @error('description')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>
                             </span>

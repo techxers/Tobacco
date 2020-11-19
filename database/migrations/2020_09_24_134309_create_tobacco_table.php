@@ -16,7 +16,7 @@ class CreateTobaccoTable extends Migration
         Schema::create('tobaccos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('number');
 
             $table->timestamps();
         });

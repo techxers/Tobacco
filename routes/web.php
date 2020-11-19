@@ -48,6 +48,8 @@ Route::post('/receving.add', "AdminController@createReceiving" )->name('receving
 //
 Route::get('/measure/view', "AdminController@viewMeasure" )->name('measure.view');
 Route::post('/measure/add', "AdminController@measureAdd" )->name('measure.add');
+Route::get('/crop/year/add', "AdminController@cropYear" )->name('crop.year');
+
 
 Route::get('/customer/view', "AdminController@viewCustomer" )->name('customer.view');
 Route::post('/customer/add', "AdminController@addCustomer" )->name('customer.add');
@@ -67,6 +69,8 @@ Route::get('/bale/reports', "AdminController@showReports" )->name('bale.reports'
 //add
 Route::post('/tobacco/add', "AdminController@addTobacco" )->name('tobbaco.add');
 Route::post('/product/add', "AdminController@addProduct" )->name('product.add');
+Route::post('/grade/add', "AdminController@addGrade" )->name('grade.add');
+
 Route::post('/product/grade/add', "AdminController@addProductGrade" )->name('product.grade.add');
 
 //update
@@ -108,10 +112,24 @@ Route::post('/restaurant/{restaurant}/cart/complete','OrderController@cartComple
 Route::get('/restaurant/{restaurant}/order/process', "OrderController@orderStep2")->name('order.step2');
 Route::get('/restaurant/{restaurant}/order/finish', "OrderController@orderStep3")->name('order.step3');
 Route::post('/order/status/update', "OrderController@updateOrderStatus")->name('order.update');
+Route::post('/crop/year/add', "AdminController@cropYeadAdd")->name('cropyear.add');
+
 
 
 Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
 Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
+Route::get('farmer/search/{farmer_id}', 'AdminController@editFarmer');
+
+
+Route::get('grade/delete/{grade_id}', 'AdminController@deleteGrade');
+Route::get('grade/edit/{params}', 'AdminController@searchFarmer');
+
+Route::get('tobacoType/delete/{tobacco_id}', 'AdminController@deleteTobacoType');
+Route::get('tobacoType/edit/{tobacco_id}', 'AdminController@editTobacoType');
+
+
+Route::get('crop/year/activate/{crop_id}', 'AdminController@activate');
+Route::get('crop/year/deactivate{crop_id}', 'AdminController@deactivate');
 
 
 Auth::routes([
@@ -184,8 +202,12 @@ Route::get('/admin/manage/users', 'AdminController@manageUsers')->name('admin.ma
 Route::get('/admin/manage/add', 'AdminController@manageAdd')->name('admin.manage.add');
 
 Route::post('/admin/farmer/update', 'AdminController@UpdateStatus')->name('admin.farmer.update');
+Route::post('/farmer/update', 'AdminController@UpdateFarmer')->name('farmer.update');
 
-
+//Excel
+Route::get('export', 'ImportExportController@export')->name('export');
+Route::get('importExportView', 'ImportExportController@importExportView');
+Route::post('import', 'ImportExportController@import')->name('import');
 
 Route::get('/menu', function () {
     return view('pages.menu');

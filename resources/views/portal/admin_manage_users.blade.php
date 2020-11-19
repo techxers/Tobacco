@@ -30,16 +30,23 @@
 @section('content')
 <section class="content ecommerce-page">
     <div class="block-header">
+        <form action="" method="get">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+            </div>
+        </form>
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <h2>Manage Farmers
-                    <small>tobacco</small>
+
                 </h2>
+
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
-                 <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+                <!-- <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
                     <i class="zmdi zmdi-plus"></i>
-                </button> 
+                </button>  -->
                 <!-- <ul class="breadcrumb float-md-right">
                         <li class="breadcrumb-item"><a href="index-2.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
                         <li class="breadcrumb-item"><a href="ec-dashboard.html">eCommerce</a></li>
@@ -72,15 +79,15 @@
                             </thead>
                             <tbody>
 
-                            @if(null !==($farmers))
-                              
+                                @if(null !==($farmers))
+
                                 @foreach($farmers as $farmer)
 
 
                                 <tr>
 
                                     <td>
-                                        <h5>{{$farmer->first_name}} {{ $farmer->middle_name }} {{ $farmer->last_name }}  </h5>
+                                        <h5>{{$farmer->first_name}} {{ $farmer->middle_name }} {{ $farmer->last_name }} </h5>
                                     </td>
                                     <td>{{$farmer->number ?? 'No Number'}}</td>
                                     <td>{{$farmer->id_number ?? 'No id_number'}}</td>
@@ -92,7 +99,7 @@
 
 
 
-<!-- 
+                                    <!-- 
                                     @if($farmer->status ==0)
                                     <td><span data-toggle="modal" data-target="#menuAddModal" class="btn btn-warning">Pending </span></td>
                                     @elseif($farmer->status == 1)
@@ -106,22 +113,22 @@
                                             <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li> <a href="{{ action('AdminController@editFarmer', $farmer->id) }}">Edit </li>
-                                                <li><a href="{{ action('AdminController@deleteFarmer', $farmer->id) }}">Delete</a>  </li>
+                                                <li><a href="{{ action('AdminController@deleteFarmer', $farmer->id) }}">Delete</a> </li>
 
                                             </ul>
                                         </div>
                                     </td>
-                                     <!-- <td>
+                                    <!-- <td>
                                         <a href="javascript:void(0);" data-toggle="modal" data-target="#menuAddModal" class="btn btn-default waves-effect waves-float waves-green"><i class="zmdi zmdi-edit"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float waves-red"><i class="zmdi zmdi-delete"></i></a> 
                                     </td>  -->
 
                                 </tr>
                                 @endforeach
-                            @else
-                            <h1>No Farmers Availabe</h1>
-                            @endif
-                               
+                                @else
+                                <h1>No Farmers Availabe</h1>
+                                @endif
+
 
                             </tbody>
                         </table>
@@ -156,7 +163,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">Change  status </h4>
+                <h4 class="title" id="menuAddModalLabel">Change status </h4>
             </div>
             <div class="modal-body">
                 <form method="post" action="{{route('admin.farmer.update')}}" enctype="multipart/form-data" autocomplete="off">
@@ -168,7 +175,7 @@
                             <select class="form-control show-tick ms select2" data-placeholder="Select" id="status" name="status" required>
                                 <option value="">--Select the order status--</option>
                                 @foreach(\App\Res_status::all() as $status)
-                                                              <option value="{{$status->id}}">{{$status->status}}</option>
+                                <option value="{{$status->id}}">{{$status->status}}</option>
                                 @endforeach
 
                             </select>
@@ -179,7 +186,7 @@
                             @enderror
                         </div>
                         <div>
-                        <input type="hidden" name="farmer_profile_id" value="{{$farmer->id ?? 0}}">
+                            <input type="hidden" name="farmer_profile_id" value="{{$farmer->id ?? 0}}">
 
 
                         </div>

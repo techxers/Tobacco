@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CropYear;
 use App\FarmerProfile;
 use App\User;
 use App\tobacco;
@@ -44,13 +45,13 @@ class AdminController extends Controller
     {
         $data = request()->validate([
             'name' => [],
-            'description' => []
+            'number' => []
 
         ]);
         $user = auth()->user();
         $tobaccos = Tobacco::create([
             'name' => $data['name'],
-            'description' =>  $data['description'],
+            'number' =>  $data['number'],
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -63,20 +64,21 @@ class AdminController extends Controller
     {
         $data = request()->validate([
             'name' => [],
-            'description' => []
-
+            'number' => [],
+            'tobacco_id' => []
+            
         ]);
         $user = auth()->user();
         $tobaccos = Grade::create([
             'name' => $data['name'],
-            'description' =>  $data['description'],
+            'number' => $data['number'],
+            'tobacco_id' =>  $data['tobacco_id'],
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         $user = auth()->user();
 
-        $grades = Tobacco::all();
-        return view('portal.admin_manage_grades', compact('grades', 'user'));
+        return redirect()->back()->with('message', 'success!');
     }
 
     public function manageGrades()
@@ -315,8 +317,23 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Bale added');
         // return view('portal.admin_manage_users', compact('user', 'farmers'));
     }
+    
+    public function cropYeadAdd()
+    {
+        
+        $data = request()->validate([
+            'year' => [],
+            'desription' => [],
+            ]);
+            $cropyear = CropYear::create([
+                'year' => $data['year'],
+                'desription' => $data['desription'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+            return redirect()->back()->with('message', 'success!');
 
-
+    }
     public function addCustomer()
     {
         $data = request()->validate([
@@ -408,11 +425,19 @@ class AdminController extends Controller
         $user = auth()->user();
         return view('portal.new_farmer', compact('user'));
     }
+
+    
+    public function cropYear()
+    {
+        $user = auth()->user();
+        $Crops = CropYear::all();
+        return view('portal.admin_manage_crop_year', compact('user','Crops'));
+    }
     public function editFarmer($user_id)
     {
         $user = auth()->user();
         $farmer = FarmerProfile::find($user_id);
-        return view('portal.new_farmer', compact('user','farmer'));
+        return view('portal.update_farmer', compact('user','farmer'));
     }
     public function viewRegion()
     {
@@ -421,7 +446,57 @@ class AdminController extends Controller
 
         return view('portal.admin_manage_region', compact('user','regions'));
     }
+    public function activate($crop_id)
+    {
+       //Not deleting ,change status
+       $res = CropYear::find($crop_id);
+       //  dd($request->status);
+       $res->update([
+           'isActive' => 1
+
+       ]);
+       return redirect()->back()->with('message', 'success!');
+    }
+    public function UpdateFarmer()
+    {
+        $data = request()->validate([
+            'first_name' => [],
+            'middle_name' => [],
+            'cropyear_id' => [],
+            'phone' => [],
+            'postal_address' => [],
+            'id_number' => [],
+            'email' => [],
+            'last_name' => [],
+            'id'=>[]
+
+        ]);
+        
+     $farmer = FarmerProfile::find($data['id']);
+       $farmer->update([
+           'first_name' => $data['first_name'],
+           'middle_name' => $data['middle_name'],
+           'cropyear_id' => $data['cropyear_id'],
+           'phone' => $data['phone'],
+           'postal_address' => $data['postal_address'],
+           'id_number' => $data['id_number'],
+           'email' => $data['id'],
+           'last_name' => $data['last_name']
+       ]);
+       return redirect()->back()->with('message', 'success!');
+    }
     
+    public function deactivate($crop_id)
+    {
+       //Not deleting ,change status
+       $res = CropYear::find($crop_id);
+       //  dd($request->status);
+       $res->update([
+           'isActive' => 0
+
+       ]);
+       return redirect()->back()->with('message', 'success!');
+    }
     public function deleteFarmer($farmer_id)
     {
        //Not deleting ,change status
@@ -433,6 +508,21 @@ class AdminController extends Controller
        ]);
        return redirect()->back()->with('message', 'success!');
     }
+    public function deleteTobacoType($tobacco_id)
+    {
+     
+       $res = tobacco::find($tobacco_id)->delete();
+       //  dd($request->status);
+       return redirect()->back()->with('message', 'success!');
+    }
+    public function deleteGrade($grade_id)
+    {
+       //Not deleting ,change status
+       $res = Grade::find($grade_id)->delete();
+       //  dd($request->status);
+       return redirect()->back()->with('message', 'success!');
+    }
+    
     public function addRegion()
     {
         $data = request()->validate([

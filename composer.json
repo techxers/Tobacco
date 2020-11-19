@@ -17,6 +17,7 @@
         "laravel/telescope": "^3.5",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.2",
+        "maatwebsite/excel": "^3.1",
         "simplesoftwareio/simple-qrcode": "~3"
     },
     "require-dev": {

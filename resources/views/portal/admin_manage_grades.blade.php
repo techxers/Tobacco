@@ -58,10 +58,11 @@
                                 <tr>
 
                                     <th>Grade</th>
-                                    <th data-breakpoints="xs md">Tobacco</th>
-                                    <th data-breakpoints="xs md">Description</th>
+                                    <th data-breakpoints="xs md">Grade Number</th>
+                                    <th data-breakpoints="xs md">Tobacco Type Number</th>
+                                  
 
-                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
+                                    <th data-breakpoints="sm xs md">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,13 +78,23 @@
                                     <td>
                                         {{$grade->name ?? 'No  name'}}
                                     </td>
+                                    <td>
+                                        {{$grade->number ?? 'No  description'}}
+                                    </td>
+                                    <td>
+                                        {{$grade->tobacco->number ?? 'No  name'}}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li> <a href="{{ action('AdminController@editGrade', $grade->id) }}">Edit </li>
+                                                <li><a href="{{ action('AdminController@deleteGrade', $grade->id) }}">Delete</a>  </li>
 
-                                    <td>
-                                        {{$grade->tobacco->name ?? 'No  name'}}
+                                            </ul>
+                                        </div>
                                     </td>
-                                    <td>
-                                        {{$grade->tobacco->description ?? 'No  description'}}
-                                    </td>
+                                    
 
                                 </tr>
                                 @endforeach
@@ -125,15 +136,17 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">add a new item</h4>
+                <h4 class="title" id="menuAddModalLabel">add a new grade </h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('tobbaco.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('grade.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
                     <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="grade Name" name="name">
+                    <label class="form-label" for="menu_category">Grade Number </label>
+
+                    <div class="form-group">
+                            <input type="text" class="form-control" placeholder="grade Name" name="number">
                             @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}.</strong>
@@ -144,7 +157,9 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="grade Description" name="description">
+                        <label class="form-label" for="menu_category">Grade Name </label>
+
+                        <input type="text" class="form-control" placeholder="grade Description" name="name">
                             @error('description')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>
@@ -152,7 +167,21 @@
                             @enderror
                         </div>
                         <div>
+                        <div class="form-group">
+                            <label class="form-label" for="menu_category">Select Tobacco Type Number</label>
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="tobacco_id" name="tobacco_id" required>
+                                <option value="">--Select the order status--</option>
+                                @foreach(\App\tobacco::all() as $tobacco)
+                                <option value="{{$tobacco->id}}">{{$tobacco->number}}</option>
+                                @endforeach
 
+                            </select>
+                            @error('status')
+                            <span class="text-danger pl-1 small" role="alert">
+                                {{$message}}
+                            </span>
+                            @enderror
+                        </div>
 
 
                         </div>

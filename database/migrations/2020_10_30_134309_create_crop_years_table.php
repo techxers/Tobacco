@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCropYearTable extends Migration
+class CreateCropYearsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCropYearTable extends Migration
      */
     public function up()
     {
-        Schema::create('crop_year', function (Blueprint $table) {
+        Schema::create('crop_years', function (Blueprint $table) {
             $table->id();
             $table->string('year');
             $table->string('desription');
+            $table->boolean('isActive')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateCropYearTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crop_year');
+        Schema::dropIfExists('crop_years');
     }
 }

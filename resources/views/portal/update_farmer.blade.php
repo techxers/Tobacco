@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Add New')
+@section('title', 'Update Farmer Details')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -25,7 +25,7 @@
                 <ul class="breadcrumb float-md-right">
                     <li class="breadcrumb-item"><a href="index-2.html"><i class="zmdi zmdi-home"></i> Leaf</a>
                     </li>
-                    <li class="breadcrumb-item active">Add New</li>
+                    <li class="breadcrumb-item active">Update Details </li>
                 </ul>
             </div>
         </div>
@@ -40,7 +40,7 @@
                                 <div class="profile-image float-md-right"><img src="" alt=""></div>
                             </div>
                             <div class="col-lg-8 col-md-8 col-12">
-                                <h4 class="m-t-0 m-b-0"><strong>Add a new Farmer</strong></h4>
+                                <h4 class="m-t-0 m-b-0"><strong>Update Farmer Details</strong></h4>
                                 <span class="job_post"></span>
 
 
@@ -51,19 +51,19 @@
             </div>
         </div>
         <div class="row clearfix">
-
+           
             <div class="col-lg-8 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="modal" data-target="#menuAddModal">Upload Excel</a>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#usersettings">Setting</a>
+                     
+                    </li>
+                 
+                    @isset($message)
+                    <button class="btn btn-info btn-round">{{$message ?? ''}} </button>
+                    @endisset
 
-                        </li>
-
-                        @isset($message)
-                        <button class="btn btn-info btn-round">{{$message ?? ''}} </button>
-                        @endisset
-
-
+                 
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -94,9 +94,10 @@
                         <form class="row clearfix" action="{{route('farmer.update')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             @method('POST')
+                            <input type="hidden" name="id" value="{{$farmer->id??old('id')}}">
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="First Name" name="first_name" value="{{$farmer->first_name??old('first_name')}}">
+                                    <input type="text" class="form-control" placeholder="First Name" name="first_name"  value="{{$farmer->first_name??old('first_name')}}">
                                     @error('title')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -106,7 +107,7 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Middle Name" name="middle_name" value="{{$farmer->middle_name??old('middle_name')}}">
+                                    <input type="text" class="form-control" placeholder="Middle Name" name="middle_name"  value="{{$farmer->middle_name??old('middle_name')}}">
                                     @error('title')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -126,7 +127,7 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="email" name="email" value="{{$farmer->email??old('email')}}">
+                                    <input type="text" class="form-control" placeholder="email" name="email"  value="{{$farmer->email??old('email')}}">
                                     @error('email')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -165,56 +166,24 @@
                                 </div>
                             </div>
 
-
                             <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required value="{{$farmer->country_id??old('country_id')}}">
-                                        <option value="">Select Country</option>
-                                        @foreach (\App\Country::all() as $country)
-                                        <option value="{{$country->id}}" selected selected>
-                                            {{$country->name}}
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear"  value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
+                                        <option value="">Select Crop Year</option>
+                                        @foreach (\App\CropYear::all() as $cropyear)
+                                        <option value="{{$cropyear->id}}" selected selected>
+                                            {{$cropyear->year}}
                                         </option>
                                         @endforeach
                                     </select>
-                                    @error('country_id')
+                                    @error('region')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         {{$message}}
                                     </span>
                                     @enderror
-                                </div>
+                            
                             </div>
                             <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" value="{{$farmer->city_id??old('city_id')}}" name="city_id" required>
-                                        <option value="" selected selected>City</option>
-                                    </select>
-                                    @error('city_id')
-                                    <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                        {{$message}}
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-6 col-md-12">
-                                <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
-                                    <option value="">Select Crop Year</option>
-                                    @foreach (\App\CropYear::all() as $cropyear)
-                                    <option value="{{$cropyear->id}}" selected selected>
-                                        {{$cropyear->year}}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('region')
-                                <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                    {{$message}}
-                                </span>
-                                @enderror
-
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
+                            <div class="form-group">
                                     <select class="form-control show-tick ms select2" data-placeholder="Select" id="region" value="{{$farmer->region_id??old('region_id')}}" name="region_id" required>
                                         <option value="">Select Region</option>
                                         @foreach (\App\Region::all() as $region)
@@ -237,49 +206,18 @@
                                 </div>
                             </div> -->
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-round" type="submit">Submit</button>
+                                <button class="btn btn-primary btn-round" type="submit">Update</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
+        
     </div>
     </div>
     </div>
 </section>
-<div class="modal fade" id="menuAddModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">Change status </h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{route('import')}}" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
-                    @method('POST')
-                    <div class="container">
-                        <div class="card bg-light mt-3">
-                            <div class="card-header">
-                                Import Export Example
-                            </div>
-                            <div class="card-body">
-                                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <input type="file" name="file" class="form-control">
-                                    <br>
-                                    <button class="btn btn-success">Import Bulk Data</button>
-                                    <a class="btn btn-warning" href="{{ route('export') }}">Export Bulk Data</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 
