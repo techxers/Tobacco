@@ -187,7 +187,15 @@
                     "name": "Regions",
                     "icon": "",
                     "policy": "admin"
+                },
+                {
+                    "url": "/admin/transport/view",
+                    "uri": "admin.transport.view",
+                    "name": "Tansport",
+                    "icon": "",
+                    "policy": "admin"
                 }
+
 
             ]
 

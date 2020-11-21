@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Manage Product Grades')
+@section('title', 'Manage Transport')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -31,8 +31,11 @@
 <section class="content ecommerce-page">
     <div class="block-header">
         <div class="row">
+        <div class="col-lg-12 col-md-6 col-sm-12">
+          
+            </div>
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage Product Grades
+                <h2>Manage Transports
                     <small>tobacco</small>
                 </h2>
             </div>
@@ -43,7 +46,7 @@
                 <!-- <ul class="breadcrumb float-md-right">
                         <li class="breadcrumb-item"><a href="index-2.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
                         <li class="breadcrumb-item"><a href="ec-dashboard.html">eCommerce</a></li>
-                        <li class="breadcrumb-item active">Product List</li>
+                        <li class="breadcrumb-item active">Transport List</li>
                     </ul> -->
             </div>
         </div>
@@ -56,37 +59,48 @@
                         <table class="table table-hover m-b-0">
                             <thead>
                                 <tr>
-                                    <th>Product Name</th>
-                                    <th>Grade Number</th>
-                                    <th>Ratio Grade</th>
-                                    <th data-breakpoints="xs md">Yield</th>
 
-                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
+                                    <th>Lorry Registration</th>
+                                     <th data-breakpoints="xs md">Type/Model of Lorry</th>
+                                    <th data-breakpoints="xs md">Name of Driver</th>
+                                    <th data-breakpoints="sm xs md">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @if(null !==($productgrades))
-                                @foreach($productgrades as $productgrade)
-                                <tr>
-                                    <td>
-                                        {{$productgrade->product->name ?? 'No  product_id'}}
-                                    </td>
-                                    <td>
-                                        {{$productgrade->grade->name ?? 'No  product_id'}}
-                                    </td>
-                                    <td>
-                                        {{$productgrade->ration ?? 'No  grade_id'}}
-                                    </td>
-                                    <td>
-                                        {{$productgrade->yield_percentage ?? ' no yield_percentage'}}
-                                    </td>
+                                @if(null !==($transports))
 
+                                @foreach($transports as $transport)
+
+
+                                <tr>
+
+                                    <td>
+                                        {{$transport->plate ?? 'No  plate'}}
+                                    </td>
+                                    <td>
+                                        {{$transport->type ?? 'No  number'}}
+                                    </td>
+                                    
+                                    <td>
+                                        {{$transport->driver ?? 'No  driver'}}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{{ action('AdminController@deleteTransport', $transport->id) }}">Delete</a> </li> 
+
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 @else
-                                <h1>No productgrades Availabe</h1>
+                                <h1>No Transports Availabe</h1>
                                 @endif
+
+
                             </tbody>
                         </table>
                     </div>
@@ -94,6 +108,8 @@
             </div>
         </div>
     </div>
+
+
 
 
     <div class="card">
@@ -118,71 +134,16 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">Create a  product Grade Composition</h4>
+                <h4 class="title" id="menuAddModalLabel">add a new item</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('product.grade.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('admin.transport.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
-                    <!-- <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="product_id " name="product_id">
-                            @error('product_id')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                <strong>{{$message}}.</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div> -->
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="product" name="product_id" required>
-                                <option value="">Select Product</option>
-                                @foreach (\App\Product::all() as $product)
-                                <option value="{{$product->id}}">
-                                    {{$product->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('product_id')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                {{$message}}
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-                   
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="grade" name="grade_id" required>
-                                <option value="">Select Grade</option>
-                                @foreach (\App\Grade::all() as $grade)
-                                <option value="{{$grade->id}}">
-                                    {{$grade->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('product_id')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                            <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="number" class="form-control" placeholder="yield_percentage" name="yield_percentage">
-                            @error('yield_percentage')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                            <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="ration" name="ration">
-                            @error('ration')
+                            <input type="text" class="form-control" placeholder="Vehicle Registration " name="plate">
+                            @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>
                             </span>
@@ -190,8 +151,37 @@
                         </div>
 
                     </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Vehicle Model" name="type">
+                            @error('name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Vehicle Driver name" name="driver">
+                            @error('description')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div>
+
+
+
+                        </div>
+                    </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary ">Create
+                        <button type="reset" class="btn btn-danger ">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary ">Add
                         </button>
                     </div>
                 </form>

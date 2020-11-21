@@ -14,6 +14,8 @@ use App\Order;
 use App\WeightUnit;
 use App\Region;
 use App\productGrades;
+use App\Transport;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -29,13 +31,13 @@ class AdminController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $restaurant = $user->farmer_profile;
-        return view('portal.admin_dashboard', compact('user', 'restaurant'));
+        // $restaurant = $user->farmer_profile;
+        return view('portal.admin_dashboard', compact('user'));
     }
     public function manageUsers()
     {
         $user = auth()->user();
-        $farmers = FarmerProfile::where('status',1)->get();
+        $farmers = FarmerProfile::where('status', 1)->get();
 
 
         return view('portal.admin_manage_users', compact('user', 'farmers'));
@@ -66,7 +68,7 @@ class AdminController extends Controller
             'name' => [],
             'number' => [],
             'tobacco_id' => []
-            
+
         ]);
         $user = auth()->user();
         $tobaccos = Grade::create([
@@ -95,7 +97,7 @@ class AdminController extends Controller
 
         return view('portal.orders_list', compact('orders', 'user'));
     }
-    
+
     public function createOrder()
     {
         $data = request()->validate([
@@ -122,7 +124,6 @@ class AdminController extends Controller
             'updated_at' => Carbon::now(),
         ]);
         return redirect()->back()->with('message', 'success!');
-
     }
 
     public function manageProducts()
@@ -139,6 +140,14 @@ class AdminController extends Controller
 
         return view('portal.admin_manage_product_grades', compact('productgrades', 'user'));
     }
+    public function editGrade($grade_id)
+    {
+        $user = auth()->user();
+
+        $grade = Grade::find($grade_id);
+        return view('portal.edit_grade', compact('grade', 'user'));
+    }
+
 
     public function addProductGrade()
     {
@@ -207,6 +216,7 @@ class AdminController extends Controller
     {
         $data = request()->validate([
             'name' => [],
+            'number' => [],
             'description' => []
 
         ]);
@@ -214,6 +224,7 @@ class AdminController extends Controller
         $tobaccos = Product::create([
             'name' => $data['name'],
             'description' =>  $data['description'],
+            'number' =>  $data['number'],
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -226,16 +237,15 @@ class AdminController extends Controller
     {
         $user = auth()->user();
         $tobaccos = Tobacco::all();
-        $user = auth()->user();
-
-
         return view('portal.admin_manage_tobacco', compact('tobaccos', 'user'));
     }
 
-    public function updateProduct()
+    public function viewTransport()
     {
         $user = auth()->user();
-        return view('portal.buying', compact('user'));
+        $transports = Transport::all();
+
+        return view('portal.admin_manage_transport', compact('user', 'transports'));
     }
     public function showReceiving()
     {
@@ -248,6 +258,28 @@ class AdminController extends Controller
         $units = WeightUnit::all();
 
         return view('portal.view_measure', compact('user', 'units'));
+    }
+    public function addTransport()
+    {
+
+        $data = request()->validate([
+            'plate' => [],
+            'type' => [],
+            'driver' => []
+
+        ]);
+        $tobaccoProduct = Transport::create([
+            'plate' => $data['plate'],
+            'type' => $data['type'],
+            'driver' => $data['driver'],
+            'description' => 'Vehicle Reg No' . $data['plate']  . 'model' . $data['type'] . 'assigned to ' . 'driver' . $data['driver'] . 'on' . Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        $user = auth()->user();
+        $transports = Transport::all();
+
+        return view('portal.admin_manage_transport', compact('user', 'transports'));
     }
     public function measureAdd()
     {
@@ -314,25 +346,24 @@ class AdminController extends Controller
         ]);
         $user = auth()->user();
 
-        return redirect()->back()->with('message', 'Bale added');
-        // return view('portal.admin_manage_users', compact('user', 'farmers'));
+       // return redirect()->back()->with('message', 'Bale added');
+         return view('portal.buying', compact('user', 'tobaccoProduct'));
     }
-    
+
     public function cropYeadAdd()
     {
-        
+
         $data = request()->validate([
             'year' => [],
             'desription' => [],
-            ]);
-            $cropyear = CropYear::create([
-                'year' => $data['year'],
-                'desription' => $data['desription'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-            return redirect()->back()->with('message', 'success!');
-
+        ]);
+        $cropyear = CropYear::create([
+            'year' => $data['year'],
+            'desription' => $data['desription'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->back()->with('message', 'success!');
     }
     public function addCustomer()
     {
@@ -354,7 +385,7 @@ class AdminController extends Controller
             $url = Storage::disk('images')->url($imagePath);
             $imageArray = ['logo' => $url];
         }
-      
+
 
 
         $farmer = FarmerProfile::create([
@@ -411,12 +442,12 @@ class AdminController extends Controller
             'region_id' => $data['region_id'],
             'phone' => $data['phone'],
             'status' => 1,
-            'number'=>rand(1,1000000),
+            'number' => rand(1, 1000000),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         $user = auth()->user();
-        $message = 'Farmer Created Succesfully , No Assigned' .'  ' .$farmer->number;
+        $message = 'Farmer Created Succesfully , No Assigned' . '  ' . $farmer->number;
         return view('portal.new_farmer', compact('user', 'message'));
         // return redirect()->back()->with('message', 'success!');
     }
@@ -426,36 +457,36 @@ class AdminController extends Controller
         return view('portal.new_farmer', compact('user'));
     }
 
-    
+
     public function cropYear()
     {
         $user = auth()->user();
         $Crops = CropYear::all();
-        return view('portal.admin_manage_crop_year', compact('user','Crops'));
+        return view('portal.admin_manage_crop_year', compact('user', 'Crops'));
     }
     public function editFarmer($user_id)
     {
         $user = auth()->user();
         $farmer = FarmerProfile::find($user_id);
-        return view('portal.update_farmer', compact('user','farmer'));
+        return view('portal.update_farmer', compact('user', 'farmer'));
     }
     public function viewRegion()
     {
         $user = auth()->user();
         $regions = Region::all();
 
-        return view('portal.admin_manage_region', compact('user','regions'));
+        return view('portal.admin_manage_region', compact('user', 'regions'));
     }
     public function activate($crop_id)
     {
-       //Not deleting ,change status
-       $res = CropYear::find($crop_id);
-       //  dd($request->status);
-       $res->update([
-           'isActive' => 1
+        //Not deleting ,change status
+        $res = CropYear::find($crop_id);
+        //  dd($request->status);
+        $res->update([
+            'isActive' => 1
 
-       ]);
-       return redirect()->back()->with('message', 'success!');
+        ]);
+        return redirect()->back()->with('message', 'success!');
     }
     public function UpdateFarmer()
     {
@@ -468,61 +499,80 @@ class AdminController extends Controller
             'id_number' => [],
             'email' => [],
             'last_name' => [],
-            'id'=>[]
+            'id' => []
 
         ]);
-        
-     $farmer = FarmerProfile::find($data['id']);
-       $farmer->update([
-           'first_name' => $data['first_name'],
-           'middle_name' => $data['middle_name'],
-           'cropyear_id' => $data['cropyear_id'],
-           'phone' => $data['phone'],
-           'postal_address' => $data['postal_address'],
-           'id_number' => $data['id_number'],
-           'email' => $data['id'],
-           'last_name' => $data['last_name']
-       ]);
-       return redirect()->back()->with('message', 'success!');
+
+        $farmer = FarmerProfile::find($data['id']);
+        $farmer->update([
+            'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'],
+            'cropyear_id' => $data['cropyear_id'],
+            'phone' => $data['phone'],
+            'postal_address' => $data['postal_address'],
+            'id_number' => $data['id_number'],
+            'email' => $data['id'],
+            'last_name' => $data['last_name']
+        ]);
+        return redirect()->back()->with('message', 'success!');
     }
-    
+
     public function deactivate($crop_id)
     {
-       //Not deleting ,change status
-       $res = CropYear::find($crop_id);
-       //  dd($request->status);
-       $res->update([
-           'isActive' => 0
+        //Not deleting ,change status
+        $res = CropYear::find($crop_id);
+        //  dd($request->status);
+        $res->update([
+            'isActive' => 0
 
-       ]);
-       return redirect()->back()->with('message', 'success!');
+        ]);
+        return redirect()->back()->with('message', 'success!');
     }
     public function deleteFarmer($farmer_id)
     {
-       //Not deleting ,change status
-       $res = FarmerProfile::find($farmer_id);
-       //  dd($request->status);
-       $res->update([
-           'status' => 0
+        //Not deleting ,change status
+        $res = FarmerProfile::find($farmer_id);
+        //  dd($request->status);
+        $res->update([
+            'status' => 0
 
-       ]);
-       return redirect()->back()->with('message', 'success!');
+        ]);
+        return redirect()->back()->with('message', 'success!');
     }
     public function deleteTobacoType($tobacco_id)
     {
-     
-       $res = tobacco::find($tobacco_id)->delete();
-       //  dd($request->status);
-       return redirect()->back()->with('message', 'success!');
+
+        $res = tobacco::find($tobacco_id)->delete();
+        //  dd($request->status);
+        return redirect()->back()->with('message', 'success!');
+    }
+    public function deleteTransport($transport_id)
+    {
+
+        $res = Transport::find($transport_id)->delete();
+        //  dd($request->status);
+        return redirect()->back()->with('message', 'success!');
+    }
+
+
+    
+    public function deleteProduct($product_id)
+    {
+        //remove product
+        Product::find($product_id)->delete();
+        //  dd($request->status);
+        return redirect()->back()->with('message', 'success!');
     }
     public function deleteGrade($grade_id)
     {
-       //Not deleting ,change status
-       $res = Grade::find($grade_id)->delete();
-       //  dd($request->status);
-       return redirect()->back()->with('message', 'success!');
+        //Not deleting ,change status
+        $res = Grade::find($grade_id)->delete();
+        //  dd($request->status);
+        return redirect()->back()->with('message', 'success!');
     }
-    
+
+
+
     public function addRegion()
     {
         $data = request()->validate([
@@ -537,7 +587,28 @@ class AdminController extends Controller
             'updated_at' => Carbon::now(),
         ]);
         return redirect()->back()->with('message', 'success!');
+    }
 
+    public function updateGrade(Request $request)
+    {
+        $data = request()->validate([
+            'name' => [],
+            'number' => [],
+            'tobacco_id' => [],
+            'id' => [],
+
+
+        ]);
+        $res = Grade::find($data['id']);
+        $res->update([
+            'name' => $data['name'],
+            'number' => $data['number'],
+            'tobacco_id' => $data['tobacco_id']
+
+        ]);
+        $user = auth()->user();
+        $grades = Grade::all();
+        return view('portal.admin_manage_grades', compact('grades', 'user'));
     }
     public function UpdateStatus(Request $request)
     {
@@ -557,8 +628,107 @@ class AdminController extends Controller
         $user = auth()->user();
         $restaurant = $user->farmer_profile;
 
-        $users = User::all()->where('role_id', 2);;
+        $users = User::all()->where('role_id', 2);
 
         return view('portal.admin_manage_users', compact('user', 'users'));
+    }
+
+
+    //###############################View Edit ##################################//
+
+
+    public function viewEditProduct($id)
+    {
+        $user = auth()->user();
+        $product = Product::find($id);
+        return view('portal.edit_product', compact('user', 'product'));
+    }
+
+    //###############################End View Edit ##################################//
+
+    //############################### Update Section ##################################//
+
+
+    public function updateProduct()
+    {
+        $data = request()->validate([
+            'name' => [],
+            'number' => [],
+            'description' => [],
+            'id' => [],
+
+
+        ]);
+        $res = Product::find($data['id']);
+        $res->update([
+            'name' => $data['name'],
+            'number' => $data['number'],
+            'description' => $data['description']
+
+        ]);
+        $user = auth()->user();
+        $products = Product::all();
+        return view('portal.admin_manage_product', compact('products', 'user'));
+    }
+
+    //###############################End pdate Sectio ##################################//
+
+
+    public function searchFarmer()
+    {
+        $data = request()->validate([
+            'term' => [],
+
+        ]);
+
+        $user = auth()->user();
+        $farmers  =  DB::table('farmer_profiles')
+            ->where([
+                ['first_name', 'like', '%' . $data['term'] . '%'],
+                ['status', 1]
+
+            ])->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+            ->orWhere('middle_name', 'like', '%' . $data['term'] . '%')
+            ->orWhere('id_number', 'like', '%' . $data['term'] . '%')
+            ->orWhere('number', 'like', '%' . $data['term'] . '%')
+            ->orWhere('phone', 'like', '%' . $data['term'] . '%')
+            ->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+            ->get();
+
+        return view('portal.admin_manage_users', compact('user', 'farmers'));
+    }
+    public function searchGrades()
+    {
+        $data = request()->validate([
+            'term' => [],
+
+        ]);
+
+        $user = auth()->user();
+        $grades  =  DB::table('grades')
+            ->where([
+                ['name', 'like', '%' . $data['term'] . '%'],
+
+            ])->get();
+
+        return view('portal.admin_manage_grades', compact('user', 'grades'));
+    }
+
+    public function searchProduct()
+    {
+        $data = request()->validate([
+            'term' => [],
+
+        ]);
+
+        $user = auth()->user();
+        $products  =  DB::table('products')
+            ->where([
+                ['name', 'like', '%' . $data['term'] . '%'],
+
+            ])->orWhere('number', 'like', '%' . $data['term'] . '%')
+            ->get();
+
+        return view('portal.admin_manage_product', compact('user', 'products'));
     }
 }

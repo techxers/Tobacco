@@ -30,19 +30,23 @@
 @section('content')
 <section class="content ecommerce-page">
     <div class="block-header">
-        <form action="" method="get">
+
+        <form action="{{route('farmer.search')}}" method="get">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search...">
-                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                <input style="background: white;" type="text" name="term" class="form-control" placeholder="Search...">
+                <span style="background: white;" class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
             </div>
         </form>
         <div class="row">
-            <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage Farmers
-
-                </h2>
-
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <h2>Manage Farmers</h2>
             </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+               <i> <a href="{{route('admin.manage.users')}}">Show All </a> </i>
+            </div>
+
+
+
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <!-- <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
                     <i class="zmdi zmdi-plus"></i>

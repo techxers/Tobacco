@@ -8,8 +8,7 @@ use App\Order;
 use App\Reservation;
 use App\RestaurantProfile;
 use App\User;
-use App\News;
-use App\Tips;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

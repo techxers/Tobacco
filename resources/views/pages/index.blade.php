@@ -44,8 +44,7 @@
 
 
             <div id="hero_video">
-
-
+                @guest
                 <form action="{{route('login')}}" method="POST" class="popup-form" id="myLogin" name="loginForm">
                     @csrf
                     <div class="login_icon"><i class="icon_lock_alt"></i></div>
@@ -67,9 +66,15 @@
                     </div>
                 </form>
 
+                @else
+
+                @endguest
+
             </div>
         </div>
     </div>
+
+
     <!-- End sub_content -->
 
 

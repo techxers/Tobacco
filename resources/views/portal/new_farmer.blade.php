@@ -249,37 +249,7 @@
     </div>
     </div>
 </section>
-<div class="modal fade" id="menuAddModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">Change status </h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{route('import')}}" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
-                    @method('POST')
-                    <div class="container">
-                        <div class="card bg-light mt-3">
-                            <div class="card-header">
-                                Import Export Example
-                            </div>
-                            <div class="card-body">
-                                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <input type="file" name="file" class="form-control">
-                                    <br>
-                                    <button class="btn btn-success">Import Bulk Data</button>
-                                    <a class="btn btn-warning" href="{{ route('export') }}">Export Bulk Data</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 @endsection
 
 

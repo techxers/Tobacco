@@ -31,6 +31,14 @@
 <section class="content ecommerce-page">
     <div class="block-header">
         <div class="row">
+        <div class="col-lg-12 col-md-6 col-sm-12">
+                <form action="{{route('product.search')}}" method="get">
+                    <div class="input-group">
+                        <input style="background: white;" type="text" name="term" class="form-control" placeholder="Search...">
+                        <span style="background: white;" class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                    </div>
+                </form>
+            </div>
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <h2>Manage Products
                     <small>tobacco</small>
@@ -59,8 +67,7 @@
 
                                     <th>Product Name</th>
                                     <th data-breakpoints="xs md">Description</th>
-
-                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
+                                    <th data-breakpoints="sm xs md">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,12 +82,23 @@
                                     <td>
                                         {{$product->name ?? 'No  name'}}
                                     </td>
-
-
+                                    <td>
+                                        {{$product->number ?? 'No  number'}}
+                                    </td>
+                                    
                                     <td>
                                         {{$product->description ?? 'No  description'}}
                                     </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li> <a href="{{ action('AdminController@viewEditProduct', $product->id) }}">Edit </li>
+                                                <li><a href="{{ action('AdminController@deleteProduct', $product->id) }}">Delete</a> </li>
 
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 @else
@@ -130,6 +148,17 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="product Name" name="name">
+                            @error('name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="product Number" name="number">
                             @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>

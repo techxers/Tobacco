@@ -23,6 +23,10 @@ Route::post('/admin/farmer/add', "AdminController@addFarmer" )->name('farmer.add
 Route::get('/admin/region/view', "AdminController@viewRegion" )->name('admin.region.view');
 Route::post('/admin/region/add', "AdminController@addRegion" )->name('admin.region.add');
 
+//tranport
+Route::get('/admin/transport/view', "AdminController@viewTransport" )->name('admin.transport.view');
+Route::post('/admin/transport/add', "AdminController@addTransport" )->name('admin.transport.add');
+
 
 
 
@@ -118,11 +122,22 @@ Route::post('/crop/year/add', "AdminController@cropYeadAdd")->name('cropyear.add
 
 Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
 Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
-Route::get('farmer/search/{farmer_id}', 'AdminController@editFarmer');
+Route::get('farmer/search', 'AdminController@searchFarmer')->name('farmer.search');
+Route::get('grades/search', 'AdminController@searchGrades')->name('grades.search');
+Route::post('grades/update', 'AdminController@updateGrade')->name('grade.update');
+
+Route::get('product/search', 'AdminController@searchProduct')->name('product.search');
+Route::post('product/update', 'AdminController@updateProduct')->name('product.update');
 
 
 Route::get('grade/delete/{grade_id}', 'AdminController@deleteGrade');
-Route::get('grade/edit/{params}', 'AdminController@searchFarmer');
+Route::get('grade/edit/{params}', 'AdminController@editGrade');
+
+Route::get('product/delete/{poduct_id}', 'AdminController@deleteProduct');
+Route::get('product/edit/{params}', 'AdminController@viewEditProduct');
+Route::get('transport/delete/{params}', 'AdminController@deleteTransport');
+
+
 
 Route::get('tobacoType/delete/{tobacco_id}', 'AdminController@deleteTobacoType');
 Route::get('tobacoType/edit/{tobacco_id}', 'AdminController@editTobacoType');
@@ -208,6 +223,11 @@ Route::post('/farmer/update', 'AdminController@UpdateFarmer')->name('farmer.upda
 Route::get('export', 'ImportExportController@export')->name('export');
 Route::get('importExportView', 'ImportExportController@importExportView');
 Route::post('import', 'ImportExportController@import')->name('import');
+
+Route::post('import', 'ImportExportController@importGrades')->name('import.grade');
+
+//PDG
+Route::get('invoice', 'ImportExportController@generateBuyingInvoice')->name('buying.invoice');
 
 Route::get('/menu', function () {
     return view('pages.menu');
