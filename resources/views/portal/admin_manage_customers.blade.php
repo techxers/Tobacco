@@ -78,7 +78,7 @@
                                 <tr>
 
                                     <td>
-                                        <h5>{{$customer->first_name}} {{ $customer->middle_name }} {{ $customer->middle_last }}  ?? 'No first name'}} </h5>
+                                        <h5>{{$customer->first_name}} {{ $customer->middle_name }} {{ $customer->middle_last }}  </h5>
                                     </td>
                                     <td>{{$customer->country->name ?? 'No country'}}</td>
                                     <td>{{$customer->city->name ?? 'No City'}}</td>
@@ -86,9 +86,6 @@
                                     <td>{{$customer->postal_address ?? 'No Postal Address' }}</td>
 
                                     <td>{{$customer->email ?? 'No City'}}</td>
-
-
-
 
 
                                 </tr>
@@ -139,7 +136,27 @@
                     @method('POST')
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Full Name" name="full_name">
+                            <input type="text" class="form-control" placeholder="First Name" name="first_name">
+                            @error('first_name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}.</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Middle Name" name="middle_name">
+                            @error('middle_name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}.</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Last Name" name="last_name">
                             @error('title')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}.</strong>

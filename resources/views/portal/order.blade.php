@@ -41,27 +41,7 @@
             </div>
         </div>
         <div class="row clearfix">
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active text" data-toggle="tab" href="#">Order Generation</a>
-                        </li>
-                        
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane body active" id="about">
-                            <small class="text-muted"> Generate Order Below </small>
-                        </div>
-                        <div class="col-md-12">
-                          <button class="btn btn-dark btn-round" type="submit">GENERATE</button>   
-                      <button class="btn btn-dark btn-round" type="submit">View Orders</button>    
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-12">
+             <div class="col-lg-7 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#ordersettings">New Order </a>
@@ -98,7 +78,7 @@
                             @method('POST')
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Order ID" name="order_number" value="{{$order->order_number??old('order_number')}}">
+                                    <input type="text" class="form-control"  readonly id="orderID" placeholder="Order ID" name="order_number" value="{{$order->order_number??old('order_number')}}">
                                     @error('order_number')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
                                         <strong>{{$message}}.</strong>
@@ -112,7 +92,7 @@
                                         <option value="">Select Customer</option>
                                         @foreach (\App\FarmerProfile::all() as $farmer)
                                         <option value="{{$farmer->id}}">
-                                            {{$farmer->full_name}}
+                                            {{$farmer->first_name}}  {{$farmer->first_name}}
                                         </option>
                                         @endforeach
                                     </select>
@@ -211,6 +191,22 @@
 @endsection
 @section('page-script')
 <script src="{{asset('port/assets/js/pages/charts/jquery-knob.js')}}"></script>
+<script>
+function randomNumber(len) {
+    var randomNumber;
+    var n = '';
+
+    for(var count = 0; count < len; count++) {
+        randomNumber = Math.floor(Math.random() * 10);
+        n += randomNumber.toString();
+    }
+    return n;
+}
+document.getElementById("orderID").value = randomNumber(9);
+
+</script>
+
+
 <script>
     $(document).ready(function() {
         $('#country').on('change', function() {

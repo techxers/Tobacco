@@ -46,8 +46,8 @@ Route::get('/products/grades', "AdminController@manageProductsGrades" )->name('p
 Route::get('/bale/buying', "AdminController@showBuying" )->name('bale.buying');
 Route::get('/bale/receiving', "AdminController@showReceiving" )->name('bale.receiving');
 Route::post('/bale/create', "AdminController@createBuying" )->name('buying.create');
-Route::post('/receving.add', "AdminController@createReceiving" )->name('receving.add');
-
+Route::get('/receving.add', "AdminController@createReceiving" )->name('receving.add');
+Route::get('/fetch/inventory', "FetchController@fetchInvetory" )->name('quick.fetch.inventory');
 
 //
 Route::get('/measure/view', "AdminController@viewMeasure" )->name('measure.view');

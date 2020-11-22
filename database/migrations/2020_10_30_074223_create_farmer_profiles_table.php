@@ -23,6 +23,7 @@ class CreatefarmerProfilesTable extends Migration
             $table->integer('country_id')->index('country_id')->nullable();
             $table->integer('region_id')->index('region_id')->nullable();
             $table->integer('cropyear_id')->index('cropyear_id')->nullable();
+            $table->integer('role_id')->index('role_id')->default(2);
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('postal_address')->nullable();

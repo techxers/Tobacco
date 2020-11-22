@@ -174,17 +174,18 @@ class AdminController extends Controller
 
     public function createReceiving()
     {
+       
+
         $data = request()->validate([
-            'tobacco_product_id' => [],
+            'id' => [],
+            'tobbaco_id' =>[]
 
         ]);
-
         //get the lorry weight
-        $tobacco = tobaccoProduct::where('id', $data['tobacco_product_id'])->first();
-        //  dd($tobacco);
-        //check status
+        $tobacco = tobaccoProduct::where('id', $data['tobbaco_id'])->first();
+        //check status Zero Means Lorry Not Offloaded
 
-        if ($tobacco->lorry_status_id == 0) {
+        if ($tobacco->status == 0) {
             // create main store record
             $mainStorage = MainStorage::create([
                 'tobacco_product_id' => $tobacco->id,
@@ -198,17 +199,15 @@ class AdminController extends Controller
                 $tobacco->update([
 
                     'weight' => 0,
-                    'lorry_status_id' => 1
+                    'status' => 1
 
                 ]);
             }
-            return redirect()->back()->with('message', 'IT WORKS!');
-        } else {
+          
 
-            return redirect()->back()->with('message', 'success!');
         }
 
-        //remove weight from lorry
+        return 1;
 
     }
 
@@ -368,7 +367,9 @@ class AdminController extends Controller
     public function addCustomer()
     {
         $data = request()->validate([
-            'full_name' => [],
+            'first_name' => [],
+            'middle_name' => [],
+            'last_name' => [],
             'email' => [],
             'id_number' => [],
             'address' => [],
@@ -401,7 +402,7 @@ class AdminController extends Controller
             'region_id' => $data['region_id'],
             'phone' => $data['phone'],
             'status' => 1,
-            'image' => $url,
+            // 'image' => $url ?? '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

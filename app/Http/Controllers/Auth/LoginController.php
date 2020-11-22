@@ -61,14 +61,7 @@ class LoginController extends Controller
 
             $user = auth()->guard('web')->user();
 
-            if ($user->role->id == 1)
-                return json_encode(array('status' => true, 'url' => route('admin.dashboard')));
-          
-             elseif ($user->role->id == 2)
-               return json_encode(array('status' => true, 'url' => route('dashboard')));
-             else
-
-             return json_encode(array('status' => true, 'url' => route('orders')));
+            return json_encode(array('status' => true, 'url' => route('admin.dashboard')));
         }
         return json_encode(array('status' => false, 'url' =>''));
 

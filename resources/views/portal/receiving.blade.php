@@ -57,7 +57,7 @@
                             <h2><strong>Bale</strong> Buying</h2>
                         </div>
                         <div class="body">
-                            <form class="row clearfix" method="post" action="{{route('receving.add')}}" enctype="multipart/form-data" autocomplete="off">
+                            <form id="receiveForm" class="row clearfix" method="post" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
                                 @method('POST')
 
@@ -80,8 +80,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
-
 
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
@@ -106,7 +104,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary btn-round">Receive</button>
+                            <button onclick="receive({{$transport->id}},{{$tobacco_product->id}})" class="btn btn-primary btn-round">Receive</button>
                         </div>
                         </form>
                     </div>
@@ -146,15 +144,15 @@
                 <h4 class="title" id="receiveCreateModalLabel">Please confirm this</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('receving.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label type="text" class="form-control">
-                            
-                          <b>  100 kg of AA will be moved to the main store,proceed?
-                              
+
+                                <b> 100 kg of AA will be moved to the main store,proceed?
+
                             </label>
                         </div>
                     </div>
@@ -179,6 +177,99 @@
 <!-- vendor files -->
 @endsection
 @section('page-script')
+<script src="{{ asset('vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
+
+<script src="{{asset('plugins/home/holdon/src/js/HoldOn.js')}}"></script>
+
+<script>
+    $("#receiveForm").submit(function(e) {
+        return false;
+    });
+    function receive(id,tobbaco_id)
+     {
+
+        Swal.fire({
+            title: 'Receive Bale to Wharehouse?',
+            text: "Offload all Kgs to where house",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,Offload',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            buttonsStyling: false,
+        }).then(function(result) {
+            if (result.value) {
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        id,
+                        tobbaco_id
+                    },
+                    url: '{{route('receving.add')}}',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.success == true) {
+                            HoldOn.close();
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'success',
+                                title: "Country Deleted from the system ",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                confirmButtonClass: 'btn btn-primary',
+                                buttonsStyling: false,
+                            });
+                            location.reload();
+
+                        } else {
+
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'error',
+                                title: "We could not complete your request",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                confirmButtonClass: 'btn btn-primary',
+                                buttonsStyling: false,
+                            });
+
+                        }
+                    },
+                    error: function() {
+                        HoldOn.close();
+                        Swal.fire({
+                            type: "error",
+                            title: 'Unknown error',
+                            text: 'Sytem Error',
+                            confirmButtonClass: 'btn btn-success',
+                        })
+                    }
+
+                });
+            }
+        })
+    
+}
+</script>
+
+<script>
+    function windowLoaded() {
+        @if(session('success'))
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: "{{session('success')}}",
+            showConfirmButton: false,
+            timer: 1500,
+            confirmButtonClass: 'btn btn-primary',
+            buttonsStyling: false,
+        });
+        @endif
+    }
+</script>
+
 <script src="{{asset('port/assets/js/pages/charts/jquery-knob.js')}}"></script>
 <script>
     $(document).ready(function() {

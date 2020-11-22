@@ -22,6 +22,7 @@ class CreateTobaccoProductsTable extends Migration
             $table->integer('transport_id')->index('transport_id');
             $table->integer('farmer_profile_id')->index('farmer_profile_id');
             $table->integer('lorry_status_id')->index('lorry_status_id');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
