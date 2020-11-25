@@ -539,6 +539,7 @@ class AdminController extends Controller
           
          
         }
+        $farmer ="";
         $farmers  = FarmerProfile::with('cropyear')->where('status',1)->get();
         return view('portal.add_farmer_cropyear', compact('user', 'farmers', 'farmer'));
     }

@@ -126,7 +126,7 @@ Route::post('/crop/year/add', "AdminController@cropYeadAdd")->name('cropyear.add
 Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
 Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
 Route::get('farmer/search', 'AdminController@searchFarmer')->name('farmer.search');
-Route::get('farmer/search', 'AdminController@farmerCropYear')->name('farmer.search.oncrop');
+Route::get('farmer/search/crop', 'AdminController@farmerCropYear')->name('farmer.search.oncrop');
 Route::post('farmer/add/cropyear', 'AdminController@addfarmerCropYear')->name('farmer.add.cropyear');
 
 

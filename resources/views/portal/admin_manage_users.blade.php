@@ -258,8 +258,7 @@
         @if(session('error'))
         Swal.fire({
             title: "Error Detected",
-            text: '{{session('
-            error ')}}',
+            text: '{{session('error')}}',
             type: "warning",
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
