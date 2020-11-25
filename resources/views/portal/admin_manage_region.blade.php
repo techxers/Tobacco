@@ -56,25 +56,23 @@
                         <table class="table table-hover m-b-0">
                             <thead>
                                 <tr>
-                                    <th>County</th>
+                                  
                                     <th>Region</th>
-                                   
-
+                                    <th>County</th>
+                                  
                                     <!-- <th data-breakpoints="sm xs md">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @if(null !==($regions))
-
                                 @foreach($regions as $region)
                                 <tr>
-
-                                    <td>
-                                        {{$region->city->name ?? 'No  name'}}
-                                    </td>
+                                    
                                     <td>
                                         {{$region->name ?? 'No  name'}}
+                                    </td>
+                                    <td>
+                                        {{$region->city->name ?? 'No  name'}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -88,9 +86,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <div class="card">
         <div class="body">
@@ -120,6 +115,17 @@
                 <form method="post" action="{{route('admin.region.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Region  Name" name="name">
+                            @error('region')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
                             <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="city_id" required>
@@ -137,20 +143,9 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Region  Name" name="name">
-                            @error('region')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                    </div>
-
+                
                     <div class="col-12">
-                        <button type="reset" class="btn btn-danger ">
+                        <button type="reset" data-dismiss="modal" class="btn btn-danger ">
                             Cancel
                         </button>
                         <button type="submit" class="btn btn-primary ">Add

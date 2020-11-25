@@ -15,6 +15,8 @@ use App\WeightUnit;
 use App\Region;
 use App\productGrades;
 use App\Transport;
+use App\City;
+
 use Illuminate\Support\Facades\DB;
 
 
@@ -174,11 +176,11 @@ class AdminController extends Controller
 
     public function createReceiving()
     {
-       
+
 
         $data = request()->validate([
             'id' => [],
-            'tobbaco_id' =>[]
+            'tobbaco_id' => []
 
         ]);
         //get the lorry weight
@@ -203,12 +205,9 @@ class AdminController extends Controller
 
                 ]);
             }
-          
-
         }
 
         return 1;
-
     }
 
     public function addProduct()
@@ -345,8 +344,8 @@ class AdminController extends Controller
         ]);
         $user = auth()->user();
 
-       // return redirect()->back()->with('message', 'Bale added');
-         return view('portal.buying', compact('user', 'tobaccoProduct'));
+        // return redirect()->back()->with('message', 'Bale added');
+        return view('portal.buying', compact('user', 'tobaccoProduct'));
     }
 
     public function cropYeadAdd()
@@ -355,10 +354,17 @@ class AdminController extends Controller
         $data = request()->validate([
             'year' => [],
             'desription' => [],
+            'start_date' => [],
+            'end_date' => [],
+            'status' => [],
         ]);
+
         $cropyear = CropYear::create([
             'year' => $data['year'],
-            'desription' => $data['desription'],
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
+            'desription' => '',
+            'status' => $data['status'],
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -418,8 +424,8 @@ class AdminController extends Controller
             'last_name' => [],
             'email' => [],
             'id_number' => [],
-            'address' => [],
-            'country_id' => [],
+            'postal_address' => [],
+            // 'country_id' => [],
             'city_id' => [],
             'region_id' => [],
             'cropyear_id' => [],
@@ -436,11 +442,11 @@ class AdminController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'id_number' => $data['id_number'],
-            'postal_address' => $data['address'],
-            'country_id' => $data['country_id'],
+            'postal_address' => $data['postal_address'],
+            'country_id' => 1,
             'city_id' => $data['city_id'],
             'cropyear_id' => $data['cropyear_id'],
-            'region_id' => $data['region_id'],
+            // 'region_id' => $data['region_id'],
             'phone' => $data['phone'],
             'status' => 1,
             'number' => rand(1, 1000000),
@@ -478,13 +484,72 @@ class AdminController extends Controller
 
         return view('portal.admin_manage_region', compact('user', 'regions'));
     }
+    public function viewCounty()
+    {
+        $user = auth()->user();
+        $counties  = City::all();
+
+        return view('portal.admin_manage_county', compact('user', 'counties'));
+    }
+    public function addfarmerCropYear()
+    {
+        $data = request()->validate([
+            'farmer_id' => [],
+            'cropyear_id' => [],
+
+        ]);
+        //Not deleting ,change status
+        $farmer = FarmerProfile::find($data['farmer_id']);
+        //  dd($request->status);
+        $farmer->update([
+            'cropyear_id' => $data['cropyear_id']
+
+        ]);
+        return redirect()->back()->with('success', 'success!');
+    }
+
+
+    public function farmerCropYear()
+    {
+
+        $data = request()->validate([
+            'term' => [],
+
+        ]);
+
+        if (isset($data['term'])) {
+            $user = auth()->user();
+         
+         
+            $farmer  =  DB::table('farmer_profiles')
+                ->where([
+                    ['first_name', 'like', '%' . $data['term'] . '%'],
+                    ['status', 1]
+
+                ])->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+                ->orWhere('middle_name', 'like', '%' . $data['term'] . '%')
+                ->orWhere('id_number', 'like', '%' . $data['term'] . '%')
+                ->orWhere('number', 'like', '%' . $data['term'] . '%')
+                ->orWhere('phone', 'like', '%' . $data['term'] . '%')
+                ->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+                ->first();
+               
+        } else {
+            $user = auth()->user();
+          
+         
+        }
+        $farmers  = FarmerProfile::with('cropyear')->where('status',1)->get();
+        return view('portal.add_farmer_cropyear', compact('user', 'farmers', 'farmer'));
+    }
+
     public function activate($crop_id)
     {
         //Not deleting ,change status
         $res = CropYear::find($crop_id);
         //  dd($request->status);
         $res->update([
-            'isActive' => 1
+            'status' => 1
 
         ]);
         return redirect()->back()->with('message', 'success!');
@@ -524,7 +589,7 @@ class AdminController extends Controller
         $res = CropYear::find($crop_id);
         //  dd($request->status);
         $res->update([
-            'isActive' => 0
+            'status' => 2
 
         ]);
         return redirect()->back()->with('message', 'success!');
@@ -556,7 +621,7 @@ class AdminController extends Controller
     }
 
 
-    
+
     public function deleteProduct($product_id)
     {
         //remove product
@@ -572,7 +637,20 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'success!');
     }
 
+    public function addCounty()
+    {
+        $data = request()->validate([
+            'name' => []
 
+        ]);
+        $city = City::create([
+            'country_id' => 1,
+            'name' => $data['name'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->back()->with('message', 'success!');
+    }
 
     public function addRegion()
     {
@@ -673,6 +751,9 @@ class AdminController extends Controller
     }
 
     //###############################End pdate Sectio ##################################//
+
+
+
 
 
     public function searchFarmer()

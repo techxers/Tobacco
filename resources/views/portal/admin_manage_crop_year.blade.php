@@ -58,7 +58,8 @@
                                 <tr>
 
                                     <th>Crops Name</th>
-                                    <th data-breakpoints="xs md">Description</th>
+                                    <th data-breakpoints="xs md">Starts</th>
+                                    <th data-breakpoints="xs md">Ends</th>
                                     <th>Status</th>
 
                                     <th>Change Status</th>
@@ -78,15 +79,18 @@
                                     </td>
 
                                     <td>
-                                        {{$crop->desription ?? 'No  description'}}
+                                        {{$crop->start_date ?? 'No  start date'}}
                                     </td>
-                                    @if($crop->isActive==1)
                                     <td>
-                                        <button class="btn btn-success">Open</button>
+                                        {{$crop->end_date ?? 'No end date'}}
+                                    </td>
+                                    @if($crop->status==1)
+                                    <td>
+                                        <button class="btn btn-success">Current Season</button>
                                     </td>
                                     @else
                                     <td>
-                                        <button class="btn btn-dark">Closed</button>
+                                        <button class="btn btn-dark">Closed Season</button>
                                     </td>
                                     @endif
                                     <td>
@@ -114,10 +118,6 @@
             </div>
         </div>
     </div>
-
-
-
-
     <div class="card">
         <div class="body">
             <ul class="pagination pagination-primary m-b-0">
@@ -140,7 +140,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">add a new item</h4>
+                <h4 class="title" id="menuAddModalLabel">New Crop Year</h4>
             </div>
             <div class="modal-body">
                 <form method="post" action="{{route('cropyear.add')}}" enctype="multipart/form-data" autocomplete="off">
@@ -148,7 +148,34 @@
                     @method('POST')
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="crop Name" name="year">
+                            <label> <b>Crop Name </label>
+                            <input type="text" class="form-control" placeholder="Crop Name" name="year">
+                            @error('name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}.</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label> <b> Crop Year Start Date </label>
+                        <div class="form-group">
+                            <input type="date" id="start" name="start_date" value="2019-01-01">
+                            @error('name')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                <strong>{{$message}}.</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label> <b> Crop Year End Date </label>
+                        <div class="form-group">
+
+
+                            <input type="date" id="end" name="end_date" value="2030-12-31">
                             @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}.</strong>
@@ -159,8 +186,12 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="crop Description" name="desription">
-                            @error('description')
+                            <label> Status</label>
+                            <select name="status" id="status">
+                                <option value="0">Select Status</option>
+                                <option value="1">Current</option>
+                                <option value="2">Not Current</option>
+                            </select> @error('description')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>
                             </span>
@@ -168,12 +199,10 @@
                         </div>
                         <div>
 
-
-
                         </div>
                     </div>
                     <div class="col-12">
-                        <button type="reset" class="btn btn-danger ">
+                        <button data-dismiss="modal" type="reset" class="btn btn-danger ">
                             Cancel
                         </button>
                         <button type="submit" class="btn btn-primary ">Add

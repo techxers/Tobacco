@@ -27,6 +27,9 @@ Route::post('/admin/region/add', "AdminController@addRegion" )->name('admin.regi
 Route::get('/admin/transport/view', "AdminController@viewTransport" )->name('admin.transport.view');
 Route::post('/admin/transport/add', "AdminController@addTransport" )->name('admin.transport.add');
 
+//region
+Route::get('/admin/county/view', "AdminController@viewCounty" )->name('admin.county.view');
+Route::post('/admin/county/add', "AdminController@addCounty" )->name('admin.county.add');
 
 
 
@@ -123,6 +126,10 @@ Route::post('/crop/year/add', "AdminController@cropYeadAdd")->name('cropyear.add
 Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
 Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
 Route::get('farmer/search', 'AdminController@searchFarmer')->name('farmer.search');
+Route::get('farmer/search', 'AdminController@farmerCropYear')->name('farmer.search.oncrop');
+Route::post('farmer/add/cropyear', 'AdminController@addfarmerCropYear')->name('farmer.add.cropyear');
+
+
 Route::get('grades/search', 'AdminController@searchGrades')->name('grades.search');
 Route::post('grades/update', 'AdminController@updateGrade')->name('grade.update');
 
@@ -145,6 +152,10 @@ Route::get('tobacoType/edit/{tobacco_id}', 'AdminController@editTobacoType');
 
 Route::get('crop/year/activate/{crop_id}', 'AdminController@activate');
 Route::get('crop/year/deactivate{crop_id}', 'AdminController@deactivate');
+
+//CropYear
+Route::get('/admin/manage/cropyear', "AdminController@farmerCropYear" )->name('admin.manage.cropyear');
+
 
 
 Auth::routes([

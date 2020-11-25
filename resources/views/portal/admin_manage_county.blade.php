@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Manage Product')
+@section('title', 'Manage Counties')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -31,17 +31,9 @@
 <section class="content ecommerce-page">
     <div class="block-header">
         <div class="row">
-        <div class="col-lg-12 col-md-6 col-sm-12">
-                <form action="{{route('product.search')}}" method="get">
-                    <div class="input-group">
-                        <input style="background: white;" type="text" name="term" class="form-control" placeholder="Search...">
-                        <span style="background: white;" class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
-                    </div>
-                </form>
-            </div>
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage Products
-                    <small>tobacco</small>
+                <h2>Manage Counties
+                    <small>county</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
@@ -64,48 +56,22 @@
                         <table class="table table-hover m-b-0">
                             <thead>
                                 <tr>
-
-                                    <th>Product Name</th>
-                                    <th data-breakpoints="xs md">Description</th>
-                                    <th data-breakpoints="sm xs md">Action</th>
+                                    <th>County</th>
+                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @if(null !==($products))
-
-                                @foreach($products as $product)
-
-
+                                @if(null !==($counties))
+                                @foreach($counties as $county)
                                 <tr>
-
                                     <td>
-                                        {{$product->name ?? 'No  name'}}
-                                    </td>
-                                    <td>
-                                        {{$product->number ?? 'No  number'}}
-                                    </td>
-                                    
-                                    <td>
-                                        {{$product->description ?? 'No  description'}}
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li> <a href="{{ action('AdminController@viewEditProduct', $product->id) }}">Edit </li>
-                                                <li><a href="{{ action('AdminController@deleteProduct', $product->id) }}">Delete</a> </li>
-
-                                            </ul>
-                                        </div>
+                                        {{$county->name ?? 'No  name'}}
                                     </td>
                                 </tr>
                                 @endforeach
                                 @else
-                                <h1>No Products Availabe</h1>
+                                <h1>No county Availabe</h1>
                                 @endif
-
-
                             </tbody>
                         </table>
                     </div>
@@ -113,10 +79,6 @@
             </div>
         </div>
     </div>
-
-
-
-
     <div class="card">
         <div class="body">
             <ul class="pagination pagination-primary m-b-0">
@@ -139,16 +101,17 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">add a new item</h4>
+                <h4 class="title" id="menuAddModalLabel">Add a new county</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('product.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('admin.county.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
+
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="product Name" name="name">
-                            @error('name')
+                            <input type="text" class="form-control" placeholder="county  Name" name="name">
+                            @error('county')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}</strong>
                             </span>
@@ -156,35 +119,10 @@
                         </div>
 
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="product Number" name="number">
-                            @error('name')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
 
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="product Description" name="description">
-                            @error('description')
-                            <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div>
-
-
-
-                        </div>
-                    </div>
                     <div class="col-12">
-                        <button data-dismiss="modal" type="reset" class="btn btn-danger ">
-                            Cancel
+                        <button type="reset"  data-dismiss="modal"  class="btn btn-danger ">
+                            Dismiss
                         </button>
                         <button type="submit" class="btn btn-primary ">Add
                         </button>

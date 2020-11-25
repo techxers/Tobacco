@@ -91,7 +91,7 @@
                         <h2><strong>Farmer</strong> Settings</h2>
                     </div>
                     <div class="body">
-                        <form class="row clearfix" action="{{route('farmer.update')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                        <form class="row clearfix" action="{{route('farmer.add')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             @method('POST')
                             <div class="col-lg-6 col-md-12">
@@ -168,25 +168,13 @@
 
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="country" name="country_id" required value="{{$farmer->country_id??old('country_id')}}">
-                                        <option value="">Select Country</option>
-                                        @foreach (\App\Country::all() as $country)
-                                        <option value="{{$country->id}}" selected selected>
-                                            {{$country->name}}
+                                    <select  class="form-control show-tick ms select2" data-placeholder="Select" id="city" name="city_id" required value="{{$farmer->country_id??old('country_id')}}">
+                                        <option value="">Select County</option>
+                                        @foreach (\App\City::all() as $city)
+                                        <option  value="{{$city->id}}" selected selected>
+                                            {{$city->name}}
                                         </option>
                                         @endforeach
-                                    </select>
-                                    @error('country_id')
-                                    <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                        {{$message}}
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" value="{{$farmer->city_id??old('city_id')}}" name="city_id" required>
-                                        <option value="" selected selected>City</option>
                                     </select>
                                     @error('city_id')
                                     <span class="small pl-3 text-danger font-weight-light" role="alert">
@@ -195,13 +183,12 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                             <div class="col-lg-6 col-md-12">
-                                <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
+                            <div class="form-group"> 
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
                                     <option value="">Select Crop Year</option>
                                     @foreach (\App\CropYear::all() as $cropyear)
-                                    <option value="{{$cropyear->id}}" selected selected>
+                                    <option value="{{$cropyear->id}}">
                                         {{$cropyear->year}}
                                     </option>
                                     @endforeach
@@ -211,9 +198,9 @@
                                     {{$message}}
                                 </span>
                                 @enderror
-
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
+                            <!-- <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <select class="form-control show-tick ms select2" data-placeholder="Select" id="region" value="{{$farmer->region_id??old('region_id')}}" name="region_id" required>
                                         <option value="">Select Region</option>
@@ -229,7 +216,7 @@
                                     </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
@@ -259,22 +246,22 @@
 @section('page-script')
 <script src="{{asset('port/assets/js/pages/charts/jquery-knob.js')}}"></script>
 <script>
-    $(document).ready(function() {
-        $('#country').on('change', function() {
-            let country_id = this.value;
-            $.ajax({
-                url: "/country/" + country_id + "/cities",
-                type: "GET",
-                success: function(result) {
-                    $("#city").empty();
-                    $("#city").append('<option selected value="">Please select city</option>');
-                    $.each(result, function(key, value) {
-                        $("#city").append('<option value="' + key + '">' + value + '</option>');
-                    });
-                    $('.selectpicker').selectpicker('refresh');
-                }
-            });
-        });
-    });
+    // $(document).ready(function() {
+    //     $('#country').on('change', function() {
+    //         let country_id = this.value;
+    //         $.ajax({
+    //             url: "/country/" + country_id + "/cities",
+    //             type: "GET",
+    //             success: function(result) {
+    //                 $("#city").empty();
+    //                 $("#city").append('<option selected value="">Please select city</option>');
+    //                 $.each(result, function(key, value) {
+    //                     $("#city").append('<option value="' + key + '">' + value + '</option>');
+    //                 });
+    //                 $('.selectpicker').selectpicker('refresh');
+    //             }
+    //         });
+    //     });
+    // });
 </script>
 @endsection

@@ -40,6 +40,13 @@
                     "name": "Add New ",
                     "icon": "",
                     "policy": "admin"
+                },
+                {
+                    "url": "/admin/manage/cropyear",
+                    "uri": "admin.manage.cropyear",
+                    "name": "Farmer Crop Year ",
+                    "icon": "",
+                    "policy": "admin"
                 }
             ]
         },
@@ -189,12 +196,20 @@
                     "policy": "admin"
                 },
                 {
+                    "url": "/admin/county/view",
+                    "uri": "admin.county.view",
+                    "name": "County",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
                     "url": "/admin/transport/view",
                     "uri": "admin.transport.view",
                     "name": "Tansport",
                     "icon": "",
                     "policy": "admin"
                 }
+
 
 
             ]
