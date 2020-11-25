@@ -536,10 +536,10 @@ class AdminController extends Controller
                
         } else {
             $user = auth()->user();
-          
+            $farmer ="";
          
         }
-        $farmer ="";
+       
         $farmers  = FarmerProfile::with('cropyear')->where('status',1)->get();
         return view('portal.add_farmer_cropyear', compact('user', 'farmers', 'farmer'));
     }
