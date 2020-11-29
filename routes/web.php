@@ -125,8 +125,15 @@ Route::post('/crop/year/add', "AdminController@cropYeadAdd")->name('cropyear.add
 
 Route::get('farmer/delete/{farmer_id}', 'AdminController@deleteFarmer');
 Route::get('farmer/edit/{farmer_id}', 'AdminController@editFarmer');
+
+
+Route::get('farmer/input/delete/{farmer_id}', 'AdminController@deleteFarmerInput');
+
 Route::get('farmer/search', 'AdminController@searchFarmer')->name('farmer.search');
 Route::get('farmer/search/crop', 'AdminController@farmerCropYear')->name('farmer.search.oncrop');
+Route::get('farmer/search/input', 'AdminController@farmerFarmInput')->name('farmer.search.onfarmInput');
+
+
 Route::post('farmer/add/cropyear', 'AdminController@addfarmerCropYear')->name('farmer.add.cropyear');
 
 
@@ -152,6 +159,22 @@ Route::get('tobacoType/edit/{tobacco_id}', 'AdminController@editTobacoType');
 
 Route::get('crop/year/activate/{crop_id}', 'AdminController@activate');
 Route::get('crop/year/deactivate{crop_id}', 'AdminController@deactivate');
+
+
+
+//Farm Inputs
+Route::get('farm/input/edit/{farm_input_id}', 'AdminController@editFarmInput');
+Route::get('farm/input/delete/{farm_input_id}', 'AdminController@deleteFarmInout');
+Route::post('/admin/farm/input/update', 'AdminController@updateFarmInput')->name('farm.input.update');
+
+Route::get('admin/manage/farm/inputs', "AdminController@farmerInputs" )->name('admin.manage.farm.inputs');
+
+Route::post("/farminput/add","AdminController@addFarmInput")->name('farminput.add');
+
+Route::get('/admin/farm/input/view', "AdminController@manageFarmInputs" )->name('admin.farm.input.view');
+Route::post("/admin/farmer/input/add","AdminController@addFarmerInput")->name('add.farmer.inputs');
+
+
 
 //CropYear
 Route::get('/admin/manage/cropyear', "AdminController@farmerCropYear" )->name('admin.manage.cropyear');

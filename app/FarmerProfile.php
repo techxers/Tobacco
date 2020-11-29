@@ -11,6 +11,9 @@ class FarmerProfile extends Model
     {
         return $this->hasMany(RestaurantService::class);
     }
+    public function farmerinput(){
+        return $this->hasMany(FarmerInputs::class);
+    }
     public function ratings(){
         return $this->hasMany(Rating::class);
     }

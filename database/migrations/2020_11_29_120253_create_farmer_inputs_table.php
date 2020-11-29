@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFarmInputsTable extends Migration
+class CreateFarmerInputsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateFarmInputsTable extends Migration
      */
     public function up()
     {
-        Schema::create('farm_inputs', function (Blueprint $table) {
+        Schema::create('farmer_inputs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('farmer_profile_id')->index('farmer_profiles_id')->nullable();
+            $table->integer('farm_input_id')->index('farm_inputs_id')->nullable();
+            $table->date('issued_date');
             $table->string('description');
-            $table->integer('weight_units_id')->index('weight_units_id');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateFarmInputsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farm_inputs');
+        Schema::dropIfExists('farmer_inputs');
     }
 }

@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Add Farmer to Crop Year')
+@section('title', 'Add Farm input to Farmer')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -14,7 +14,7 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Farmer Crop Years
+                <h2>Farmer Farm Inputs
                     <small>manage</small>
                 </h2>
             </div>
@@ -44,14 +44,15 @@
 
                             <div class="col-lg-12 col-md-12">
                                 <h5 class="text"> How it works</h5>
+
                                 <hr>
                                 <small class="text"> 1. Search Farmer </small>
                                 <hr>
-                              
-                                <small class="text"> 2. Select crop Year</b> </small>
+
+                                <small class="text"> 2. Select Farm Input</b> </small>
                                 <hr>
-                       
-                                <small class="text"> 3. Add Farmer to year  </small>
+
+                                <small class="text"> 3. Add Input to Farmer </small>
                                 <hr>
                             </div>
 
@@ -62,32 +63,19 @@
             </div>
             <div class="col-lg-8 col-md-12">
                 <div class="card">
-                    <!-- <div class="header">
-                        <div class="col-lg-12 col-md-6">
-                            <b> Crop Year </b> <label type="text" id="cropyearlabel"></label>
-                        </div>
-                    </div> -->
-
-                    <hr>
-                    <div class="header">
-                        @if(session('success'))
-                        <div class="col-lg-8 col-md-12"> <img style="width:50px;height:50px" src="/images/check.png"> <b>Farmer added to crop season succesfully</b></div>
-                        @endif
-                    </div>
-
                     <div class="header">
                         <div class="row">
 
                             <div class="col-lg-12 col-md-6">
                                 <label class="header"><b>Search Farmer </b></label>
-                                <form action="{{route('farmer.search.oncrop')}}" method="get">
+                                <form action="{{route('farmer.search.onfarmInput')}}" method="get">
                                     <div class="input-group">
                                         <input style="background: white;" type="text" name="term" class="form-control" placeholder="Search...">
                                         <span style="background: white;" class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
                                     </div>
                                 </form>
                             </div>
-                            <form class="row" action="{{route('farmer.add.cropyear')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                            <form class="row" action="{{route('add.farmer.inputs')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
                                 @method('POST')
                                 <div class="col-lg-9 col-md-12">
@@ -106,29 +94,65 @@
                                 </div>
                                 <input type="hidden" name="farmer_id" value="{{$farmer->id ?? ''}}">
                                 <div class="col-lg-12 col-md-12">
-                                    <label class="header"><b>Select Crop Year</b> </label>
+                                    <label class="header"><b>Select Farm Input</b> </label>
                                     <hr>
                                     <div>
-                                        <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyeardropdown" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
-                                            <option value="">Select Crop Year</option>
-                                            @foreach (\App\CropYear::all() as $cropyear)
-                                            <option value="{{$cropyear->id}}">
-                                                {{$cropyear->year}}
+                                        <select class="form-control show-tick ms select2" data-placeholder="Select" id="farminputdropdown" value="" name="farm_input_id" required>
+                                            <option value="">Select Farm Input</option>
+                                            @foreach (\App\FarmInput::all() as $input)
+                                            <option value="{{$input->id}}">
+                                                {{$input->name}}
                                             </option>
                                             @endforeach
                                         </select>
-                                        @error('region')
+                                        @error('farm_input_id')
                                         <span class="small pl-3 text-danger font-weight-light" role="alert">
                                             {{$message}}
                                         </span>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-md-12">
-                                    <div class="form-group">
-                                        <button style="width: 250px;" class="btn btn-info" type="submit" class="form-control"> add <span class="iconify" data-icon="zmdi:plus-square" data-inline="false"></span></span>
-                                        </button>
+                                    <hr>
+                                    <div class="col-12 col-md-6">
+                                        <label> <b>Issue Date </label>
+                                        <div class="form-group">
+                                            <input type="date" id="issue_date" name="issued_date" value="2020-01-01">
+                                            @error('issue_date')
+                                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                                <strong>{{$message}}.</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
 
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 col-md-12">
+                                        <div class="form-group">
+                                            <label> <b>Comments </label>
+                                            <input type="text" class="form-control" placeholder="Any Comments" name="description">
+                                            @error('name')
+                                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                                <strong>{{$message}}.</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="body">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12">
+                                                <button style="width: 250px;" class="btn btn-info" type="submit" class="form-control"> add <span class="iconify" data-icon="zmdi:plus-square" data-inline="false"></span></span>
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12">
+                                                <form method="get" action="/admin/manage/users">
+                                                    <button style="width: 250px;" class="btn btn-danger" type="submit" class="form-control"> exit <span class="iconify" data-icon="zmdi:plus-square" data-inline="false"></span></span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -137,15 +161,12 @@
                     <hr>
                 </div>
                 <!-- <div class="tab-content"> -->
-
-
-
                 <!-- </div> -->
             </div>
         </div>
         <div class="card">
             <div class="header">
-                <h2><strong>Farmers </strong> in this Crop Year</h2>
+                <h2><strong>Farm Inputs </strong> Issued</h2>
             </div>
             <div class="body">
 
@@ -157,48 +178,40 @@
                                     <table class="table table-hover m-b-0">
                                         <thead>
                                             <tr>
-                                                <th>Farmer Name</th>
-                                                <th data-breakpoints="xs md">Number</th>
-                                                <th data-breakpoints="xs md">ID Number</th>
-                                                <!-- <th data-breakpoints="sm xs">Email</th>
-                                                <th data-breakpoints="xs">Phone</th> -->
-                                                <th data-breakpoints="xs md">Location</th>
-                                                <th data-breakpoints="xs md">Crop Year</th>
-                                                <!-- <th data-breakpoints="xs md">Status</th> -->
-                                                <th data-breakpoints="xs md">Actions</th>
 
-                                                <!-- <th data-breakpoints="sm xs md">Action</th> -->
+                                                <th data-breakpoints="xs md">Farmer</th>
+                                                <th data-breakpoints="xs md">Farm  Input</th>
+                                                <th data-breakpoints="xs md">Issued Date</th>
+                                                <th data-breakpoints="xs md">Status </th>
+                                                <th data-breakpoints="xs md">Description</th>
+                                                <th data-breakpoints="xs md">Action</th>
+
+
                                             </tr>
                                             </tr>
                                         </thead>
                                         <tbody>
 
 
-                                            @if(null !==($farmers))
+                                            @if(null !==($inputs))
 
-                                            @foreach($farmers as $farmer)
+                                            @foreach($inputs as $input)
 
 
                                             <tr>
 
-                                                <td>
-                                                    <h5>{{$farmer->first_name}} {{ $farmer->middle_name }} {{ $farmer->last_name }} </h5>
-                                                </td>
-                                                <td>{{$farmer->number ?? 'No Number'}}</td>
-                                                <td>{{$farmer->id_number ?? 'No id_number'}}</td>
-                                                <!-- <td>{{$farmer->email ?? 'No Email' }}</td>
-                                                <td>{{$farmer->phone ?? 'No phone'}}</td> -->
-
-                                                <td>{{$farmer->city->name ?? 'No City'}}</td>
-                                                <td>{{$farmer->cropyear->year ?? 'Not Assigned'}}</td>
+                                                <td>{{$input->farmer_profiles_id}}</td>
+                                                <td>{{$input->farm_inputs_id}}</td>
+                                                <td>{{$input->issued_date}}</td>
+                                                <td>{{$input->status}}</td>
+                                                <td>{{$input->description}}</td>
 
 
                                                 <td>
                                                     <div class="btn-group">
                                                         <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li> <a href="{{ action('AdminController@editFarmer', $farmer->id) }}">Edit </li>
-                                                            <li><a href="{{ action('AdminController@deleteFarmer', $farmer->id) }}">Delete</a> </li>
+                                                            <li><a href="{{ action('AdminController@deleteFarmerInput', $input->id) }}">Delete</a> </li>
 
                                                         </ul>
                                                     </div>
@@ -208,7 +221,7 @@
                                             </tr>
                                             @endforeach
                                             @else
-                                            <h1>No Farmers Availabe</h1>
+                                            <h5>No Farm Inputs</h5>
                                             @endif
 
                                         </tbody>

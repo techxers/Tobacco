@@ -55,13 +55,13 @@
             <div class="col-lg-8 col-md-12">
                 <div class="card">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="modal" data-target="#menuAddModal">Upload Excel</a>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="modal" data-target="#menuAddModal">Upload Excel List</a>
 
                         </li>
 
-                        @isset($message)
-                        <button class="btn btn-info btn-round">{{$message ?? ''}} </button>
-                        @endisset
+                        @if(session('success'))
+                        <div class="col-lg-8 col-md-12"> <img style="width:40px;height:40px" src="/images/check.png"> <strong>{{session('success')}}. </strong></div>
+                        @endif
 
 
                     </ul>
@@ -168,10 +168,10 @@
 
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select  class="form-control show-tick ms select2" data-placeholder="Select" id="city" name="city_id" required value="{{$farmer->country_id??old('country_id')}}">
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="city" name="city_id" required value="{{$farmer->country_id??old('country_id')}}">
                                         <option value="">Select County</option>
                                         @foreach (\App\City::all() as $city)
-                                        <option  value="{{$city->id}}" selected selected>
+                                        <option value="{{$city->id}}" selected selected>
                                             {{$city->name}}
                                         </option>
                                         @endforeach
@@ -184,29 +184,12 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
-                            <div class="form-group"> 
-                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id" required>
-                                    <option value="">Select Crop Year</option>
-                                    @foreach (\App\CropYear::all() as $cropyear)
-                                    <option value="{{$cropyear->id}}">
-                                        {{$cropyear->year}}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('region')
-                                <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                    {{$message}}
-                                </span>
-                                @enderror
-                                </div>
-                            </div>
-                            <!-- <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="region" value="{{$farmer->region_id??old('region_id')}}" name="region_id" required>
-                                        <option value="">Select Region</option>
-                                        @foreach (\App\Region::all() as $region)
-                                        <option value="{{$region->id}}" selected selected>
-                                            {{$region->name}}
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="cropyear" value="{{$farmer->cropyear_id??old('cropyear_id')}}" name="cropyear_id">
+                                        <option value="">Select Crop Year</option>
+                                        @foreach (\App\CropYear::all() as $cropyear)
+                                        <option value="{{$cropyear->id}}">
+                                            {{$cropyear->year}}
                                         </option>
                                         @endforeach
                                     </select>
@@ -216,13 +199,8 @@
                                     </span>
                                     @enderror
                                 </div>
-                            </div> -->
+                            </div>
 
-                            <!-- <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <input type="file" class="form-control" placeholder="logo" name="logo">
-                                </div>
-                            </div> -->
                             <div class="col-md-12">
                                 <button class="btn btn-primary btn-round" type="submit">Submit</button>
                             </div>

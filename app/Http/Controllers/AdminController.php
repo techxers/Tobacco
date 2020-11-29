@@ -16,6 +16,10 @@ use App\Region;
 use App\productGrades;
 use App\Transport;
 use App\City;
+use Session;
+use App\FarmInput;
+use App\FarmerInputs;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -39,10 +43,61 @@ class AdminController extends Controller
     public function manageUsers()
     {
         $user = auth()->user();
-        $farmers = FarmerProfile::where('status', 1)->get();
+        $farmers = FarmerProfile::where('status', 1)->paginate(6);
 
 
         return view('portal.admin_manage_users', compact('user', 'farmers'));
+    }
+
+    
+    public function addFarmerInput()
+    {
+        $data = request()->validate([
+            'farmer_id' => [],
+            'farm_input_id' => [],
+            'issued_date' => [],
+            'description' => []
+
+
+        ]);
+
+        //  dd($data);
+        // $user = auth()->user();
+        $inputs = FarmerInputs::create([
+            'farmer_profile_id' => $data['farmer_id'],
+            'farm_input_id' =>  $data['farm_input_id'],
+            'description' => $data['description'],
+            'issued_date' => $data['issued_date'],
+            'status' => 0,
+            'farm_input_id' =>  $data['farm_input_id'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        $user = auth()->user();
+
+        return redirect()->back()->with('message', 'success!');
+    }
+    public function addFarmInput()
+    {
+        $data = request()->validate([
+            'name' => [],
+            'description' => [],
+            'weight_unit_id' => []
+
+        ]);
+
+        // dd($data);
+        // $user = auth()->user();
+        $tobaccos = FarmInput::create([
+            'name' => $data['name'],
+            'description' =>  $data['description'],
+            'weight_units_id' =>  $data['weight_unit_id'],
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        Session::flash('success','Farmer Has been assiged Farm Input Successfully');
+   
+         return redirect()->back();
     }
 
     public function addTobacco()
@@ -430,9 +485,6 @@ class AdminController extends Controller
             'region_id' => [],
             'cropyear_id' => [],
             'phone' => []
-
-
-
         ]);
 
 
@@ -453,10 +505,10 @@ class AdminController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        $user = auth()->user();
-        $message = 'Farmer Created Succesfully , No Assigned' . '  ' . $farmer->number;
-        return view('portal.new_farmer', compact('user', 'message'));
-        // return redirect()->back()->with('message', 'success!');
+        Session::flash('success','Farmer Created with No' . '  ' . $farmer->number);
+        // $message = 'Farmer Created Succesfully , No Assigned' . '  ' . $farmer->number;
+       
+         return redirect()->back();
     }
     public function manageAdd()
     {
@@ -471,6 +523,22 @@ class AdminController extends Controller
         $Crops = CropYear::all();
         return view('portal.admin_manage_crop_year', compact('user', 'Crops'));
     }
+    public function manageFarmInputs()
+    {
+        $user = auth()->user();
+        $Inputs = FarmInput::with('weight_units')->orderBy('created_at','desc')->paginate(7);
+        return view('portal.admin_manage_farm_inputs', compact('user', 'Inputs'));
+    }
+    public function farmerInputs()
+    {
+        $user = auth()->user();
+        // $Crops = CropYear::all();
+        $farmer = "";
+        $inputs = null;
+
+        return view('portal.add_farmer_farm_inputs', compact('user','farmer','inputs'));
+    }
+
     public function editFarmer($user_id)
     {
         $user = auth()->user();
@@ -506,6 +574,45 @@ class AdminController extends Controller
 
         ]);
         return redirect()->back()->with('success', 'success!');
+    }
+
+
+
+    public function farmerFarmInput()
+    {
+
+        $data = request()->validate([
+            'term' => [],
+
+        ]);
+
+        if (isset($data['term'])) {
+            $user = auth()->user();
+         
+         
+            $farmer  =  DB::table('farmer_profiles')
+                ->where([
+                    ['first_name', 'like', '%' . $data['term'] . '%'],
+                    ['status', 1]
+
+                ])->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+                ->orWhere('middle_name', 'like', '%' . $data['term'] . '%')
+                ->orWhere('id_number', 'like', '%' . $data['term'] . '%')
+                ->orWhere('number', 'like', '%' . $data['term'] . '%')
+                ->orWhere('phone', 'like', '%' . $data['term'] . '%')
+                ->orWhere('last_name', 'like', '%' . $data['term'] . '%')
+                ->first();
+               
+                $inputs = FarmerInputs::where('farmer_profile_id',$farmer->id)->with('farmer')->get();
+
+        } else {
+            $user = auth()->user();
+            $farmer ="";
+            $inputs ="";
+         
+        }
+        $farmers  = FarmerProfile::with('cropyear')->where('status',1)->get();
+        return view('portal.add_farmer_farm_inputs', compact('user', 'farmers', 'farmer','inputs'));
     }
 
 
@@ -595,6 +702,20 @@ class AdminController extends Controller
         ]);
         return redirect()->back()->with('message', 'success!');
     }
+    public function editFarmInput($farm_input_id)
+    {
+        $user = auth()->user();
+        $Input = FarmInput::find($farm_input_id);
+
+        return view('portal.edit_farm_input', compact('Input', 'user'));
+    }
+    public function deleteFarmInout($farm_input_id)
+    {
+        //Not deleting ,change status
+        $res = FarmInput::find($farm_input_id)->delete();
+        //  dd($request->status);
+        return redirect()->back()->with('message', 'success!');
+    }
     public function deleteFarmer($farmer_id)
     {
         //Not deleting ,change status
@@ -606,6 +727,7 @@ class AdminController extends Controller
         ]);
         return redirect()->back()->with('message', 'success!');
     }
+     
     public function deleteTobacoType($tobacco_id)
     {
 
@@ -728,6 +850,34 @@ class AdminController extends Controller
 
     //############################### Update Section ##################################//
 
+   
+    public function updateFarmInput()
+    {
+        $data = request()->validate([
+            'name' => [],
+            'weight_unit_id' => [],
+            'description' => [],
+            'id' => [],
+
+
+        ]);
+        // dd($data);
+        $res = FarmInput::find($data['id']);
+        $res->update([
+            'name' => $data['name'],
+            'weight_units_id' => $data['weight_unit_id'],
+            'description' => $data['description'],
+            'updated_at' => Carbon::now(),
+
+        ]);
+        $user = auth()->user();
+        $Inputs = FarmInput::with('weight_units')->orderBy('created_at','desc')->paginate(7);
+        return view('portal.admin_manage_farm_inputs', compact('user', 'Inputs'));
+
+        // $user = auth()->user();
+        // $Inputs = FarmInput::all();
+        // return view('portal.admin_manage_farm_inputs', compact('Inputs', 'user'));
+    }
 
     public function updateProduct()
     {

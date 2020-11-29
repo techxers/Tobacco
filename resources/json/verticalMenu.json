@@ -25,26 +25,33 @@
         {
             "url": "Farmers",
             "name": "Farmers",
-            "icon": "zmdi zmdi-shopping-cart",
+            "icon": "zmdi zmdi-account-add",
             "policy": "admin",
             "submenu": [{
-                    "url": "/admin/manage/users",
-                    "uri": "admin.manage.users",
-                    "name": "View",
+                    "url": "/admin/manage/add",
+                    "uri": "admin.manage.add",
+                    "name": "Add Farmer",
                     "icon": "",
                     "policy": "admin"
                 },
                 {
-                    "url": "/admin/manage/add",
-                    "uri": "admin.manage.add",
-                    "name": "Add New ",
+                    "url": "/admin/manage/users",
+                    "uri": "admin.manage.users",
+                    "name": "View Farmers",
                     "icon": "",
                     "policy": "admin"
                 },
+
                 {
                     "url": "/admin/manage/cropyear",
                     "uri": "admin.manage.cropyear",
                     "name": "Farmer Crop Year ",
+                    "icon": "",
+                    "policy": "admin"
+                }, {
+                    "url": "/admin/manage/farm Inputs",
+                    "uri": "admin.manage.farm.inputs",
+                    "name": "Farmer Inputs ",
                     "icon": "",
                     "policy": "admin"
                 }
@@ -59,7 +66,7 @@
         {
             "url": "Manage Products",
             "name": "Manage Products",
-            "icon": "zmdi zmdi-assignment",
+            "icon": "zmdi zmdi-store",
             "policy": "admin",
             "submenu": [{
                     "url": "tobacco/manage",
@@ -205,7 +212,14 @@
                 {
                     "url": "/admin/transport/view",
                     "uri": "admin.transport.view",
-                    "name": "Tansport",
+                    "name": "Transport",
+                    "icon": "",
+                    "policy": "admin"
+                },
+                {
+                    "url": "/admin/farm/input/view",
+                    "uri": "admin.farm.input.view",
+                    "name": "Farm Input",
                     "icon": "",
                     "policy": "admin"
                 }

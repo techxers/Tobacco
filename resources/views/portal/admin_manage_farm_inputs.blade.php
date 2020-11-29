@@ -1,6 +1,6 @@
 @extends('portal.layouts.contentLayoutMaster2')
 
-@section('title', 'Manage Users')
+@section('title', 'Manage Farm Inputs')
 
 @section('vendor-style')
 <!-- vendor css files -->
@@ -30,29 +30,15 @@
 @section('content')
 <section class="content ecommerce-page">
     <div class="block-header">
-
         <div class="row">
-            <div class="col-lg-12 col-md-6 col-sm-12">
-                <form action="{{route('grades.search')}}" method="get">
-                    <div class="input-group">
-                        <input style="background: white;" type="text" name="term" class="form-control" placeholder="Search...">
-                        <span style="background: white;" class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
-                    </div>
-                </form>
-            </div>
-
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Manage grades
+                <h2>Manage Farm Inputs
+                    <small>Farm Inputs</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <button data-toggle="modal" data-target="#menuAddModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
                     <i class="zmdi zmdi-plus"></i>
-
-                </button>
-                <button data-toggle="modal" data-target="#importModal" class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
-                    <img src="{{asset('images/xls.png')}}" alt="excel">
-
                 </button>
                 <!-- <ul class="breadcrumb float-md-right">
                         <li class="breadcrumb-item"><a href="index-2.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
@@ -71,45 +57,48 @@
                             <thead>
                                 <tr>
 
-                                    <th>Grade</th>
-                                    <th data-breakpoints="xs md">Grade Number</th>
-                                    <th data-breakpoints="xs md">Tobacco Type Number</th>
-                                    <th data-breakpoints="sm xs md">Action</th>
+                                    <th>Inputs Name</th>
+                                    <th data-breakpoints="xs md">Description</th>
+                                    <th>Inputs Measure</th>
+                                    <th>Status</th>
+                                    <!-- <th data-breakpoints="sm xs md">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @if(null !==($grades))
+
+                                @if(null !==($Inputs))
 
 
-                                @foreach($grades as $grade)
+                                @foreach($Inputs as $input)
 
 
                                 <tr>
+                                    <td>
+                                        {{$input->name ?? 'No  Name'}}
+                                    </td>
 
                                     <td>
-                                        {{$grade->name ?? 'No  name'}}
+                                        {{$input->description ?? 'Description'}}
                                     </td>
                                     <td>
-                                        {{$grade->number ?? 'No  description'}}
-                                    </td>
-                                    <td>
-                                        {{$grade->tobacco->number ?? 'No  name'}}
+                                        {{$input->weight_units->unit_name ?? 'No  Measure'}}
                                     </td>
                                     <td>
                                         <div class="btn-group">
                                             <button data-toggle="dropdown" class="btn btn-dark dropdown-toggle" type="button" aria-expanded="false">Actions <span class="caret"></span></button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li> <a href="{{ action('AdminController@editGrade', $grade->id) }}">Edit </li>
-                                                <li><a href="{{ action('AdminController@deleteGrade', $grade->id) }}">Delete</a> </li>
+                                                <li> <a href="{{ action('AdminController@editFarmInput', $input->id) }}">Edit </li>
+                                                <li><a href="{{ action('AdminController@deleteFarmInout', $input->id) }}">Delete</a> </li>
 
                                             </ul>
                                         </div>
                                     </td>
+
                                 </tr>
                                 @endforeach
                                 @else
-                                <h1>No grades Availabe</h1>
+                                <h1>No Farm Inputs Availabe</h1>
                                 @endif
 
 
@@ -123,12 +112,7 @@
     <div class="card">
         <div class="body">
             <ul class="pagination pagination-primary m-b-0">
-                <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-left"></i></a></li>
-                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-right"></i></a></li>
+                <li class="page-item active"> {{ $Inputs->links() }} </li>
             </ul>
         </div>
     </div>
@@ -142,98 +126,72 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="menuAddModalLabel">add a new grade </h4>
+                <h4 class="title" id="menuAddModalLabel">New Farm input</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('grade.add')}}" enctype="multipart/form-data" autocomplete="off">
+                <form method="post" action="{{route('farminput.add')}}" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     @method('POST')
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="menu_category">Grade Number </label>
-
                         <div class="form-group">
-                            <input type="text" id="gradeno" class="form-control" placeholder="grade Name" name="number">
+                            <label> <b>input Name </label>
+                            <input type="text" class="form-control" placeholder="input Name" name="name">
                             @error('name')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
                                 <strong>{{$message}}.</strong>
                             </span>
                             @enderror
                         </div>
-
                     </div>
+
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label class="form-label" for="menu_category">Grade Name </label>
-
-                            <input type="text" class="form-control" placeholder="grade Description" name="name">
+                            <label> <b>input Description </label>
+                            <input type="text" class="form-control" placeholder="input Description" name="description">
                             @error('description')
                             <span class="small pl-3 text-danger font-weight-light" role="alert">
-                                <strong>{{$message}}</strong>
+                                <strong>{{$message}}.</strong>
                             </span>
                             @enderror
                         </div>
-                        <div class="col-12 col-md-6>
-                            <div class="form-group">
-                                <label class="form-label" for="menu_category">Select Tobacco Type Number</label>
-                                <select class="form-control show-tick ms select2" data-placeholder="Select" id="tobacco_id" name="tobacco_id" required>
-                                    <option value="">--Select the order status--</option>
-                                    @foreach(\App\tobacco::all() as $tobacco)
-                                    <option value="{{$tobacco->id}}">{{$tobacco->number}}</option>
-                                    @endforeach
-
-                                </select>
-                                @error('status')
-                                <span class="text-danger pl-1 small" role="alert">
-                                    {{$message}}
-                                </span>
-                                @enderror
-                            </div>
-
-
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <label> <b>input Measure </label>
+                        <div class="form-group">
+                            <select class="form-control show-tick ms select2" data-placeholder="Select" id="measure" name="weight_unit_id">
+                                <option value="">Measure</option>
+                                @foreach (\App\WeightUnit::all() as $measure)
+                                <option value="{{$measure->id}}">
+                                    {{$measure->unit_name}}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('measure')
+                            <span class="small pl-3 text-danger font-weight-light" role="alert">
+                                {{$message}}
+                            </span>
+                            @enderror
                         </div>
                     </div>
-
+                    <div class="col-12">
+                        <button data-dismiss="modal" type="reset" class="btn btn-danger ">
+                            Cancel
+                        </button>
                         <button type="submit" class="btn btn-primary ">Add
                         </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="title" id="importModalLabel">Upload Grades Excel </h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{route('import.grade')}}" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
-                    @method('POST')
-                    <div class="container">
-                        <div class="card bg-light mt-3">
-                            <div class="card-header">
-                                Import Grades List
-                            </div>
-                            <div class="card-body">
-                                <form action="{{ route('import.grade') }}" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <input type="file" name="file" class="form-control">
-                                    <br>
-                                    <button class="btn btn-success">Import </button>
-                                    <!-- <a class="btn btn-warning" href="{{ route('export') }}">Export Bulk Data</a> -->
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div
 
-@endsection @section('vendor-script') <!-- vendor files -->
+@endsection
+
+
+@section('vendor-script')
+<!-- vendor files -->
 <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
 @endsection
 @section('page-script')
@@ -272,7 +230,6 @@
         $("#menuImageInput").trigger('click');
     });
 </script>
-
 <script>
     function windowLoaded() {
         toastr.info('We do have the Kapua suite available.', 'Turtle Bay Resort');
